@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  /* Registering your lab colors as tailwind variables */
+  --color-paper-cream: #f4f1ea;
+  --color-ink-brown: #4a3f35;
+  --color-lab-green: #6b8e23;
+  --color-stamp-red: #a64d4d;
+  --color-sketch-line: #5d544b;
+  
+  /* Grid line color using custom opacity */
+  --color-grid-line: rgba(74, 63, 53, 0.08);
+}
+
+/* Base styles for that raw paper feel */
+@layer base {
+  body {
+    @apply bg-[#e5e1d8] text-ink-brown;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Custom Laboratory components */
+@layer components {
+  .notebook-page {
+    @apply bg-paper-cream border-2 border-sketch-line;
+    background-image: 
+        linear-gradient(var(--color-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px);
+    background-size: 25px 25px;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+    border-radius: 2px 4px 3px 6px / 4px 3px 6px 2px;
+  }
+
+  .handwritten {
+    font-family: 'Architects Daughter', cursive;
+  }
+
+  .sketch-border {
+    @apply border-2 border-sketch-line;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  }
+
+  .stamp {
+    @apply border-[3px] border-double border-stamp-red text-stamp-red font-extrabold uppercase;
+    padding: 4px 12px;
+    transform: rotate(-5deg);
+    display: inline-block;
+    opacity: 0.8;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  .chat-bubble {
+    @apply relative border-[1.5px] border-sketch-line rounded-xl;
+  }
+
+  .chat-bubble::before {
+    content: '';
+    /* Change height-[15px] to h-[15px] below */
+    @apply absolute -bottom-2 left-5 w-[15px] h-[15px] bg-paper-cream;
+    border-left: 1.5px solid var(--color-sketch-line);
+    border-bottom: 1.5px solid var(--color-sketch-line);
+    transform: rotate(-45deg);
+  }
+
+  .user-bubble::before {
+    @apply left-auto right-5;
+  }
+}

@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EXP_01 — ScalAble // Laboratory Records</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --cream: #faf7ef;
+            --cream-dark: #f0ece0;
+            --ink: #1c1c18;
+            --red: #ba1a1a;
+            --green: #496800;
+            --rule: rgba(74, 63, 53, 0.11);
+            --grid: rgba(74, 63, 53, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ccc7b2;
+            background-size: 4px 4px;
+            background-image: linear-gradient(90deg, transparent, transparent 3px, rgba(0, 0, 0, .07) 4px),
+                linear-gradient(transparent, transparent 3px, rgba(0, 0, 0, .07) 4px);
+            color: var(--ink-brown);
+            box-shadow: inset 0 0 150px rgba(#4D493E, .4), inset 0 0 150px rgba(#4D493E, .3);
+            overflow-x: hidden;
+        }
+
+
+        /* ── SIDE NAV (fixed) ── */
+        .sidenav {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 200;
+        }
+
+        .sidenav a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 8px;
+            background: #e5e2db;
+            border: 2px solid #1c1c18;
+            border-right: none;
+            border-radius: 6px 0 0 6px;
+            box-shadow: -2px 2px 0 0 #1c1c18;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #4d453f;
+            text-decoration: none;
+            transform: translateX(4px);
+            transition: transform 0.15s, background 0.15s;
+        }
+
+        .sidenav a:hover {
+            transform: translateX(0);
+            color: var(--ink);
+        }
+
+        .sidenav a.active {
+            background: var(--cream);
+            color: var(--ink);
+            transform: translateX(0);
+            z-index: 2;
+        }
+
+        .sidenav span {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        /* ── FOLDER CONTAINER ── */
+        .folder-back {
+            background: #c9b98b;
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            border-radius: 2px 2px 6px 6px;
+            box-shadow:
+                0 6px 24px rgba(0, 0, 0, 0.22),
+                0 2px 6px rgba(0, 0, 0, 0.12),
+                inset 0 0 80px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Folder tab strip */
+        .folder-tab {
+            height: 30px;
+            background: #b8a870;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 24px;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .folder-tab-label {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #4a3f2a;
+        }
+
+        /* Inner padding */
+        .folder-inner {
+            padding: 16px 20px 28px;
+        }
+
+        /* Folder reference sticker */
+        .folder-sticker {
+            display: inline-block;
+            background: #fffde0;
+            border: 1px solid #c8b870;
+            padding: 4px 14px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #4a3820;
+            transform: rotate(-0.5deg);
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 14px;
+        }
+
+        /* ── LOOSE PAGES ── */
+
+        /* Base page look */
+        .page {
+            position: relative;
+            border-radius: 1px 3px 2px 4px / 3px 2px 4px 1px;
+            border: 1px solid rgba(93, 84, 75, 0.3);
+            box-shadow:
+                1px 1px 0 rgba(0, 0, 0, 0.03),
+                2px 2px 0 rgba(0, 0, 0, 0.03),
+                6px 10px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .ruled-page {
+            background-color: var(--cream);
+            background-image: linear-gradient(var(--rule) 1px, transparent 1px);
+            background-size: 100% 28px;
+            padding: 28px 36px 32px 68px;
+        }
+
+        .ruled-page::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.45;
+        }
+
+        .ruled-page::after {
+            content: '';
+            position: absolute;
+            left: 52px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.35;
+        }
+
+        .grid-page {
+            background-color: var(--cream);
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 24px 24px;
+            padding: 24px 32px;
+        }
+
+        .plain-page {
+            background: var(--cream);
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            background-blend-mode: multiply;
+            padding: 28px 32px;
+        }
+
+        /* Staple */
+        .staple {
+            width: 38px;
+            height: 4px;
+            background: #c0bcb8;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        /* Paper clip */
+        .clip {
+            width: 8px;
+            height: 50px;
+            border: 3px solid #a0998f;
+            border-radius: 5px 5px 0 0;
+            border-bottom: none;
+            position: relative;
+        }
+
+        .clip::after {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: -6px;
+            width: 8px;
+            height: 34px;
+            border: 3px solid #a0998f;
+            border-radius: 5px 5px 0 0;
+            border-bottom: none;
+        }
+
+        /* Washi tape */
+        .tape {
+            display: inline-block;
+            background: rgba(255, 230, 90, 0.42);
+            border-top: 1px solid rgba(200, 180, 70, 0.38);
+            border-bottom: 1px solid rgba(200, 180, 70, 0.38);
+            padding: 3px 20px;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            color: #4a3820;
+        }
+
+        /* Sticky note */
+        .sticky {
+            background: #fff9c0;
+            box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.04);
+            padding: 12px 14px;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            line-height: 1.55;
+            color: #3a3318;
+        }
+
+        /* Stamps */
+        .stamp {
+            display: inline-block;
+            border: 3px solid currentColor;
+            padding: 3px 10px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.85;
+            mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0,0 1 0 0 0,0 0 1 0 0,0 0 0 20 -9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+        }
+
+        /* Redaction */
+        .rx {
+            background: var(--ink);
+            color: transparent;
+            padding: 0 4px;
+            user-select: none;
+            cursor: help;
+        }
+
+        /* Highlight */
+        .hy {
+            background: rgba(255, 228, 70, 0.4);
+            padding: 0 2px;
+        }
+
+        .hg {
+            background: rgba(73, 104, 0, 0.13);
+            padding: 0 2px;
+        }
+
+        /* Log line */
+        .logline {
+            border-left: 3px solid var(--red);
+            padding-left: 14px;
+        }
+
+        /* Decision node */
+        .dn {
+            display: inline-block;
+            border: 2px solid var(--ink);
+            padding: 5px 12px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--cream);
+        }
+
+        .dn.x {
+            border-color: var(--red);
+            color: var(--red);
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .dn.x::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -2px;
+            right: -2px;
+            height: 2px;
+            background: var(--red);
+            transform: rotate(-2deg);
+        }
+
+        .dn.ok {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* Mono */
+        .mono {
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        .hw {
+            font-family: 'Architects Daughter', cursive;
+        }
+
+        /* Page number */
+        .pnum {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            color: rgba(74, 63, 53, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        /* Proto placeholder */
+        .proto {
+            border: 2px dashed rgba(74, 63, 53, 0.28);
+            padding: 28px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 8px,
+                    rgba(74, 63, 53, 0.03) 8px, rgba(74, 63, 53, 0.03) 16px);
+        }
+
+        /* Arch node */
+        .anode {
+            border: 2px solid var(--ink);
+            padding: 8px 14px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: var(--cream);
+            text-align: center;
+            min-width: 130px;
+        }
+
+        .notebook-page {
+            background-color: var(--paper-cream);
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 25px 25px;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(93, 84, 75, 0.4);
+            border-radius: 2px 4px 3px 6px / 4px 3px 6px 2px;
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.05),
+                2px 2px 0px rgba(0, 0, 0, 0.05),
+                15px 15px 20px rgba(0, 0, 0, 0.1);
+            filter: url(#paper-edge);
+        }
+
+        .paper-texture {
+            /* Adding a blend mode helps the texture show up on the colors */
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            background-blend-mode: multiply;
+        }
+
+        .bg-surface-container {
+            background-color: #f0ede4;
+            /* Slightly darker cream */
+        }
+
+        .bg-surface-container-low {
+            background-color: #e9e5db;
+            /* Even darker for depth */
+        }
+
+        .anode.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+    </style>
+</head>
+
+<body>
+
+    <body
+        class="min-h-screen text-on-surface p-8 md:p-14 flex justify-center items-start selection:bg-lab-green selection:text-white">
+        <div class="folder-back relative w-full max-w-[1100px]">
+            <div
+                class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+                <div class="folder-tab"></div>
+            </div>
+            <div
+                class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+                <div class="folder-tab"></div>
+            </div>
+            <div
+                class="absolute inset-0 folder-back shadow-md rotate-[0.3deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+                <div class="folder-tab"></div>      
+            </div>
+            <div
+                class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+                <div class="folder-tab"></div>
+            </div>
+            <div
+                class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+                <div class="folder-tab"></div>
+            </div>
+
+            <!-- Tab -->
+            <div class="folder-tab">
+                <span class="folder-tab-label">EXP_01 // ScalAble // Records</span>
+                <span class="folder-tab-label" style="opacity:0.5;">Ref: FV-4005</span>
+            </div>
+
+            <!-- Inner contents of the folder -->
+            <div class="folder-inner">
+                <nav class="absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
+                    <!-- Active Tab: Subject Info -->
+                    <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 bg-paper_cream border-2 border-r-0 border-ink_main rounded-l-lg shadow-[-2px_2px_0_0_theme('colors.ink_main')] relative z-10 translate-x-0"
+                        href="cover.html" title="Subject Info">
+                        <span class="font-code text-xs md:text-sm font-bold text-ink_main uppercase tracking-widest"
+                            style="writing-mode: vertical-rl; transform: rotate(180deg);">Subject Info</span>
+                    </a>
+                    <!-- Inactive Tab: Experiments -->
+                    <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 bg-surface-variant border-2 border-r-0 border-ink_main rounded-l-lg shadow-[-2px_2px_0_0_theme('colors.ink_main')] hover:-translate-x-0.5 transition-transform relative z-0 text-on-surface-variant hover:text-ink_main translate-x-1"
+                        href="Exp_01_ScalAble.html" title="Experiments">
+                        <span class="font-code text-xs md:text-sm font-bold uppercase tracking-widest"
+                            style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_01 [ScalAble]</span>
+                    </a>
+                    <!-- Inactive Tab: Data Logs -->
+                    <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 bg-surface-variant border-2 border-r-0 border-ink_main rounded-l-lg shadow-[-2px_2px_0_0_theme('colors.ink_main')] hover:-translate-x-0.5 transition-transform relative z-0 text-on-surface-variant hover:text-ink_main translate-x-1"
+                        href="#" title="Data Logs">
+                        <span class="font-code text-xs md:text-sm font-bold uppercase tracking-widest"
+                            style="writing-mode: vertical-rl; transform: rotate(180deg);">Data Logs</span>
+                    </a>
+
+                    <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 bg-surface-variant border-2 border-r-0 border-ink_main rounded-l-lg shadow-[-2px_2px_0_0_theme('colors.ink_main')] hover:-translate-x-0.5 transition-transform relative z-0 text-on-surface-variant hover:text-ink_main translate-x-1"
+                        href="pdf/Ansh Sharma Resume 5.pdf" title="Resume" target="_blank">
+                        <span class="font-code text-xs md:text-sm font-bold uppercase tracking-widest"
+                            style="writing-mode: vertical-rl; transform: rotate(180deg);">Resume</span>
+                    </a>
+
+                    <div class="hidden md:flex mb-6 mr-3">
+                        <span class="font-annotation text-annotation text-ink_main opacity-70"
+                            style="writing-mode: vertical-rl; transform: rotate(180deg);">FILE_REF: FV-4005</span>
+                    </div>
+                </nav>
+
+                <!-- Reference sticker
+            <div style="margin-bottom: 16px;">
+                <div class="folder-sticker">Subject: Ansh Sharma &nbsp;·&nbsp; EXP_01 — ScalAble &nbsp;·&nbsp; Status: Active Development &nbsp;·&nbsp; FV-4005</div>
+            </div>
+             -->
+                <!-- Stack of pages with slight offsets -->
+                <div style="display: flex; flex-direction: column; gap: 18px;">
+
+                    <!-- ══════════════════════════ PAGE 1 — Title / Overview ══ -->
+                    <div style="position: relative;">
+                        <!-- Staple top-left -->
+                        <div style="position: absolute; top: 14px; left: 18px; transform: rotate(-36deg); z-index: 10;">
+                            <div class="staple"></div>
+                            <div class="staple" style="margin-top: 9px; margin-left: 2px; transform: rotate(-5deg);">
+                            </div>
+                        </div>
+
+                        <div class="page plain-page" style="transform: rotate(0.2deg);">
+                            <!-- Tape + title area -->
+                            <div style="position: relative; margin-bottom: 22px;">
+                                <div class="tape"
+                                    style="position: absolute; top: -14px; left: 24px; transform: rotate(-0.8deg); z-index: 2;">
+                                    what even is this project</div>
+                                <div
+                                    style="border: 1px solid rgba(74,63,53,0.18); padding: 18px 22px 14px; background: rgba(255,255,255,0.35); margin-top: 10px;">
+                                    <div
+                                        style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+                                        <div>
+                                            <div
+                                                style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                                <span class="material-symbols-outlined"
+                                                    style="color: var(--green); font-size: 2rem;">science</span>
+                                                <h1
+                                                    style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink);">
+                                                    ScalAble</h1>
+                                            </div>
+                                            <p id="log-date" class="mono"
+                                                style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.1em; margin-left: 42px;">
+                                                Log Date: --.--.---- // EXP_01</p>
+                                        </div>
+                                        <div
+                                            style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 4px;">
+                                            <span class="stamp"
+                                                style="color: var(--green); transform: rotate(4deg);">Active · Heavy
+                                                Dev</span>
+                                            <span class="hw" style="font-size: 12px; color: var(--red);">*name
+                                                TBD</span>
+                                        </div>
+                                    </div>
+                                    <p class="hw" style="font-size: 15px; line-height: 1.75; color: var(--ink);">
+                                        A local-first data analysis platform for constrained environments — healthcare,
+                                        finance, legal, HR —
+                                        where <span class="hy">"just use the cloud"</span> isn't an answer. Open source.
+                                        No payment tiers. No accounts.
+                                        Ships as a Docker image. Scoped to schema-level intentionally — not here to
+                                        replace pgAdmin or Hex, coexists with them.
+                                        <br /><span style="color: #7a6f65;">Started as NL→SQL. Then I couldn't stop
+                                            adding things to it.</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Quick stat chips -->
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                                <div
+                                    style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                    <p class="mono"
+                                        style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">
+                                        Validated on</p>
+                                    <p class="hw" style="font-size: 13px;">6.7 GB TSV ✓</p>
+                                </div>
+                                <div
+                                    style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                    <p class="mono"
+                                        style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">
+                                        Hardware</p>
+                                    <p class="hw" style="font-size: 13px;">Ryzen 7 5800H · 16GB · no GPU</p>
+                                </div>
+                                <div
+                                    style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                    <p class="mono"
+                                        style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">
+                                        License</p>
+                                    <p class="hw" style="font-size: 13px;">Open Source</p>
+                                </div>
+                                <div
+                                    style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                    <p class="mono"
+                                        style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">
+                                        v1 Goal</p>
+                                    <p class="hw" style="font-size: 13px;">200 ★ on GitHub + a job lol</p>
+                                </div>
+                            </div>
+
+                            <div class="pnum">— p.01 —</div>
+                        </div>
+                    </div>
+
+                    <!-- ══════════════════════════ PAGE 2 — Index ══ -->
+                    <div style="position: relative;">
+                        <div class="page plain-page" style="transform: rotate(0.2deg);">
+                            <div style="margin-bottom: 18px;">
+                                <p class="mono"
+                                    style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">
+                                    § 02 — Index</p>
+                                <h2 class="hw" style="font-size: 26px; color: var(--ink);">Table of contents</h2>
+                            </div>
+
+                            <div class="pnum">— p.02 —</div>
+                        </div>
+
+                    </div>
+
+                    <!-- ══════════════════════════ PAGE 3 — Architecture (ruled) ══ -->
+                    <div style="position: relative;">
+                        <!-- Paperclip top-right -->
+                        <div style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
+                            <div class="clip"></div>
+                        </div>
+
+                        <div class="page ruled-page" style="transform: rotate(-0.25deg);">
+                            <!-- Sticky note -->
+                            <div class="sticky"
+                                style="position: absolute; top: 22px; right: 28px; width: 168px; transform: rotate(3.5deg); z-index: 5; font-size: 12px; line-height: 1.5;">
+                                push-down compute.<br />keep data close to<br />where work happens.<br />
+                                <span style="color: var(--red); font-size: 11px;">— the whole architecture</span>
+                            </div>
+
+                            <div style="margin-bottom: 18px;">
+                                <p class="mono"
+                                    style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">
+                                    § 01 — Architecture</p>
+                                <h2 class="hw" style="font-size: 26px; color: var(--ink);">How the data flows</h2>
+                            </div>
+
+                            <!-- 3-layer diagram -->
+                            <div
+                                style="border: 1px solid rgba(74,63,53,0.18); padding: 20px; margin-bottom: 22px; background: rgba(255,255,255,0.28); max-width: 620px;">
+                                <div
+                                    style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                                    <div>
+                                        <div class="anode" style="margin-bottom: 4px;">
+                                            <div class="mono"
+                                                style="font-size: 8px; color: #7a6f65; margin-bottom: 3px;">Layer 1 —
+                                                Sources</div>
+                                            pg · mysql · mongo<br />sqlite · supabase · gcp<br />
+                                            <span
+                                                style="font-weight:400; font-size:9px; text-transform:none; letter-spacing:0;">SSH
+                                                / SSL / Direct</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <p class="hw" style="font-size:12px; color:var(--red); white-space:nowrap;">
+                                            query only →</p>
+                                        <svg width="36" height="14" viewBox="0 0 36 14" fill="none">
+                                            <path d="M2 7 C9 3 26 3 33 7 L29 4 M33 7 L29 10" stroke="var(--red)"
+                                                stroke-width="1.5" />
+                                        </svg>
+                                        <p class="hw" style="font-size:10px; color:#9a8f85;">no full scans</p>
+                                    </div>
+                                    <div>
+                                        <div class="anode green" style="margin-bottom: 4px;">
+                                            <div class="mono"
+                                                style="font-size: 8px; color: var(--green); margin-bottom: 3px;">Layer 2
+                                                ★ — Memory</div>
+                                            DuckDB + Apache Arrow<br />chunked streams<br />
+                                            <span
+                                                style="font-weight:400; font-size:9px; text-transform:none; letter-spacing:0;">hard
+                                                cap ~500MB–1GB</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <p class="hw" style="font-size:12px; color:var(--red); white-space:nowrap;">
+                                            paginated →</p>
+                                        <svg width="36" height="14" viewBox="0 0 36 14" fill="none">
+                                            <path d="M2 7 C9 3 26 3 33 7 L29 4 M33 7 L29 10" stroke="var(--red)"
+                                                stroke-width="1.5" />
+                                        </svg>
+                                        <p class="hw" style="font-size:10px; color:#9a8f85;">never all at once</p>
+                                    </div>
+                                    <div>
+                                        <div class="anode">
+                                            <div class="mono"
+                                                style="font-size: 8px; color: #7a6f65; margin-bottom: 3px;">Layer 3 —
+                                                Browser</div>
+                                            table · notebook<br />charts · reports<br />
+                                            <span
+                                                style="font-weight:400; font-size:9px; text-transform:none; letter-spacing:0;">paginated
+                                                render</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="hw"
+                                    style="font-size: 13px; color: #7a6f65; margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(74,63,53,0.18);">
+                                    * 6.7GB TSV → Postgres. ~6–8M rows. ~1–2 min on Ryzen 7 5800H, 16GB, no GPU. memory
+                                    stayed contained.
+                                </p>
+                            </div>
+
+                            <!-- 4 decisions as field notes grid -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;">
+                                <div class="logline">
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">
+                                        Decision // LLM Context</p>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                        <span class="hg">Metadata, not RAG</span> — RAG is probabilistic.
+                                        DB queries need to be deterministic. Pass schema structure only.
+                                        Less tokens, less hallucination.
+                                        RAG still planned — for DB documentation vectors, not queries.
+                                    </p>
+                                </div>
+                                <div class="logline">
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">
+                                        Decision // Scope</p>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                        <span class="hg">Schema-level only</span> — HR sees the HR schema, finance sees
+                                        finance.
+                                        That's how access control already works. Map to it.
+                                        Cross-schema joins → use pgAdmin, it's great at that.
+                                    </p>
+                                </div>
+                                <div class="logline">
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">
+                                        Decision // Execution</p>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                        <span class="hy">LLM never executes. Ever.</span> A company lost their
+                                        production DB to an auto-executed DROP.
+                                        Human sees the query. Human edits. Human runs it.
+                                        If they break it — that's on them.
+                                    </p>
+                                </div>
+                                <div class="logline">
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">
+                                        Decision // LLM Source</p>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                        Ollama — local first. Cloud optional.
+                                        The userbase <span class="rx"
+                                            title="[REDACTED: trust issues with cloud inference]">cannot expose data to
+                                            cloud inference endpoints</span>.
+                                        Nothing flashy. Just functional.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="pnum">— p.02 —</div>
+                        </div>
+                    </div>
+
+                    <!-- ══════════════════════════ PAGE 4 — Field Logs (ruled) ══ -->
+                    <div style="position: relative;">
+                        <div class="page ruled-page" style="transform: rotate(0.15deg);">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+                                <div>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">
+                                        § 02 — Field Logs</p>
+                                    <h2 class="hw" style="font-size: 26px; color: var(--ink);">Selected entries. Many
+                                        exist between these.</h2>
+                                </div>
+                                <p class="hw"
+                                    style="font-size: 12px; color: var(--red); transform: rotate(-2deg); align-self: flex-end;">
+                                    *some are <span class="rx" title="too embarrassing">redacted</span></p>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+
+                                <!-- LOG 01 -->
+                                <div style="display: flex; gap: 14px;">
+                                    <div
+                                        style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                        <div
+                                            style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream); flex-shrink: 0;">
+                                        </div>
+                                        <div
+                                            style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                        <div
+                                            style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                            <span class="mono"
+                                                style="font-size: 10px; font-weight: 700; color: var(--red);">[SCALABLE_LOG_01]</span>
+                                            <span class="mono"
+                                                style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.06em;">Origin</span>
+                                        </div>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                            Started as NL→SQL. Let non-technical people query databases without writing
+                                            SQL.
+                                            Then realised — if they can't write SQL, they probably can't verify what the
+                                            LLM wrote either.
+                                            Added review step. Then needed to show results. Then handle large results.
+                                            Then connect to different DBs. Then notebook. Then file importer.
+                                            At some point it wasn't a NL→SQL tool anymore.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- LOG 05 -->
+                                <div style="display: flex; gap: 14px;">
+                                    <div
+                                        style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                        <div
+                                            style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream); flex-shrink: 0;">
+                                        </div>
+                                        <div
+                                            style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                        <div
+                                            style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                            <span class="mono"
+                                                style="font-size: 10px; font-weight: 700; color: var(--red);">[SCALABLE_LOG_05]</span>
+                                            <span class="mono"
+                                                style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.06em;">The
+                                                Memory Problem</span>
+                                        </div>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                            Tried to load full query results into memory. A few million rows on a
+                                            machine running Docker + LLM + Flask is not ideal.
+                                            Switched to DuckDB streaming chunks into an Apache Arrow buffer — hard
+                                            memory cap.
+                                            Frontend paginates. Browser never renders what it doesn't need.
+                                            After this: uploaded the 6.7GB TSV. Worked. Memory stayed in bounds.
+                                        </p>
+                                        <div class="mono"
+                                            style="font-size: 10px; background: rgba(240,236,228,0.8); border: 1px solid rgba(74,63,53,0.2); padding: 7px 10px; margin-top: 8px; color: #5d544b;">
+                                            VALIDATION → 6.7GB TSV → Postgres. ~6–8M rows. 1–2 min. Ryzen 7 5800H, 16GB,
+                                            no GPU. Memory contained.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- LOG 08 — Kernel -->
+                                <div style="display: flex; gap: 14px;">
+                                    <div
+                                        style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                        <div
+                                            style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream); flex-shrink: 0;">
+                                        </div>
+                                        <div
+                                            style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                        <div
+                                            style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                            <span class="mono"
+                                                style="font-size: 10px; font-weight: 700; color: var(--red);">[SCALABLE_LOG_08]</span>
+                                            <span class="mono"
+                                                style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.06em;">Kernel
+                                                — Mistake, then Fix</span>
+                                        </div>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                            First: use user's system Jupyter kernel. Avoids redundant installs. Seemed
+                                            smart.
+                                            Problem: system kernel touches the host machine. Any RCE path reaches
+                                            everything.
+                                        </p>
+                                        <div
+                                            style="display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-wrap: wrap;">
+                                            <div class="dn x">System kernel</div>
+                                            <span class="hw" style="color: var(--red);">→ exposed →</span>
+                                            <div class="dn ok">Sandboxed container</div>
+                                        </div>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                            Fix: isolated Docker container. Volume access only: parquet files +
+                                            installed libs.
+                                            No shared network with Flask or Redis. Settings expose package management —
+                                            called "Containment" in the UI.
+                                            Python version flexibility via Docker env var. Not a GUI option — power
+                                            users know what they're doing.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- LOG 11 -->
+                                <div style="display: flex; gap: 14px;">
+                                    <div
+                                        style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                        <div
+                                            style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream); flex-shrink: 0;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                        <div
+                                            style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                            <span class="mono"
+                                                style="font-size: 10px; font-weight: 700; color: var(--red);">[SCALABLE_LOG_11]</span>
+                                            <span class="mono"
+                                                style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.06em;">Parquet
+                                                + Source-of-Truth Model</span>
+                                        </div>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                            When user works on data in the notebook — streams from DuckDB → Arrow →
+                                            single Parquet file in Docker volume.
+                                            Two copies: source of truth + working copy. Mess up the working copy,
+                                            revert. No re-querying DB.
+                                            Iterators rejected early — they exhaust on one pass, changes lost unless
+                                            everything loads into memory.
+                                            We make a local copy from the start and trade storage for safety.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="pnum">— p.03 —</div>
+                        </div>
+                    </div>
+
+                    <!-- ══════════════════════════ PAGE 5 — Security + Stack (grid) ══ -->
+                    <div style="position: relative;">
+                        <div class="page grid-page" style="transform: rotate(-0.15deg);">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+
+                                <!-- Security -->
+                                <div>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">
+                                        § 03 — Security</p>
+                                    <h2 class="hw" style="font-size: 24px; color: var(--ink); margin-bottom: 16px;">
+                                        Breach Control</h2>
+
+                                    <div
+                                        style="margin-bottom: 14px; border-left: 3px solid rgba(186,26,26,0.4); padding-left: 12px;">
+                                        <p class="mono"
+                                            style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 3px;">
+                                            WebSockets</p>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.6;">CORS restricted to app
+                                            only. Kernel endpoints not exposed. No RCE path to backend.</p>
+                                    </div>
+                                    <div
+                                        style="margin-bottom: 14px; border-left: 3px solid rgba(186,26,26,0.4); padding-left: 12px;">
+                                        <p class="mono"
+                                            style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 3px;">
+                                            Credentials</p>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.6;">Redis — only reachable
+                                            by Flask backend. DB creds Fernet-encrypted at rest. Not cookies:
+                                            exploitable + size-limited.</p>
+                                    </div>
+                                    <div
+                                        style="margin-bottom: 16px; border-left: 3px solid rgba(186,26,26,0.4); padding-left: 12px;">
+                                        <p class="mono"
+                                            style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 3px;">
+                                            Kernel Sandbox</p>
+                                        <p class="hw" style="font-size: 14px; line-height: 1.6;">Docker container.
+                                            Volume access: parquet + libs only. No shared network with backend or Redis.
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        style="border: 1px dashed rgba(74,63,53,0.25); padding: 10px; background: rgba(255,255,255,0.25);">
+                                        <p class="hw" style="font-size: 12px; color: #7a6f65; line-height: 1.5;">
+                                            * Threat model: RCE, XSS, credential leaks from a local Docker deployment.
+                                            A hacker targeting a specific HR at a specific moment for a parquet file in
+                                            a temp volume — out of scope.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Stack -->
+                                <div>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">
+                                        § 04 — Stack</p>
+                                    <h2 class="hw" style="font-size: 24px; color: var(--ink); margin-bottom: 16px;">What
+                                        runs under the hood</h2>
+
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                            <span class="mono"
+                                                style="font-size: 8px; text-transform: uppercase; color: var(--red); min-width: 70px; padding-top: 3px; flex-shrink: 0;">Backend</span>
+                                            <p class="hw" style="font-size: 14px; line-height: 1.5;">Python · Flask ·
+                                                WebSockets · Redis · Fernet</p>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                            <span class="mono"
+                                                style="font-size: 8px; text-transform: uppercase; color: var(--red); min-width: 70px; padding-top: 3px; flex-shrink: 0;">Data</span>
+                                            <p class="hw" style="font-size: 14px; line-height: 1.5;">DuckDB · Apache
+                                                Arrow · Parquet · Pandas · NumPy</p>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                            <span class="mono"
+                                                style="font-size: 8px; text-transform: uppercase; color: var(--red); min-width: 70px; padding-top: 3px; flex-shrink: 0;">Databases</span>
+                                            <p class="hw" style="font-size: 14px; line-height: 1.5;">PostgreSQL · MySQL
+                                                · MongoDB · SQLite · Supabase · GCP</p>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                            <span class="mono"
+                                                style="font-size: 8px; text-transform: uppercase; color: var(--red); min-width: 70px; padding-top: 3px; flex-shrink: 0;">AI
+                                                / LLM</span>
+                                            <p class="hw" style="font-size: 14px; line-height: 1.5;">Ollama (local) ·
+                                                cloud providers optional</p>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                            <span class="mono"
+                                                style="font-size: 8px; text-transform: uppercase; color: var(--red); min-width: 70px; padding-top: 3px; flex-shrink: 0;">Infra</span>
+                                            <p class="hw" style="font-size: 14px; line-height: 1.5;">Docker · Volumes ·
+                                                jupyter-client · SSH tunnels · SSL</p>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                            <span class="mono"
+                                                style="font-size: 8px; text-transform: uppercase; color: var(--red); min-width: 70px; padding-top: 3px; flex-shrink: 0;">Dist.</span>
+                                            <p class="hw" style="font-size: 14px; line-height: 1.5;">Docker image · open
+                                                source · no payment tiers · self-hosted</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pnum">— p.04 —</div>
+                        </div>
+                    </div>
+
+                    <!-- ══════════════════════════ PAGE 6 — Prototypes + Access ══ -->
+                    <div style="position: relative;">
+                        <div class="page plain-page" style="transform: rotate(0.1deg);">
+                            <p class="mono"
+                                style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">
+                                § 05 — Prototype Snapshots</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+                                <h2 class="hw" style="font-size: 24px; color: var(--ink);">Screenshots pending. Platform
+                                    in active development.</h2>
+                                <p class="hw" style="font-size: 12px; color: var(--red); transform: rotate(-2deg);">
+                                    *will add a video once I survive v1</p>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+                                <div class="proto">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 2.5rem; color: rgba(74,63,53,0.18);">table_view</span>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.35);">
+                                        Data Table View</p>
+                                    <p class="hw" style="font-size: 12px; color: rgba(74,63,53,0.3);">[SCREENSHOT
+                                        PENDING]</p>
+                                </div>
+                                <div class="proto">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 2.5rem; color: rgba(74,63,53,0.18);">terminal</span>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.35);">
+                                        Notebook Area</p>
+                                    <p class="hw" style="font-size: 12px; color: rgba(74,63,53,0.3);">[SCREENSHOT
+                                        PENDING]</p>
+                                </div>
+                                <div class="proto">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 2.5rem; color: rgba(74,63,53,0.18);">smart_toy</span>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.35);">
+                                        LLM Query Panel</p>
+                                    <p class="hw" style="font-size: 12px; color: rgba(74,63,53,0.3);">[SCREENSHOT
+                                        PENDING]</p>
+                                </div>
+                                <div class="proto">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 2.5rem; color: rgba(74,63,53,0.18);">upload_file</span>
+                                    <p class="mono"
+                                        style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.35);">
+                                        File → DB Import</p>
+                                    <p class="hw" style="font-size: 12px; color: rgba(74,63,53,0.3);">[SCREENSHOT
+                                        PENDING]</p>
+                                </div>
+                            </div>
+
+                            <!-- Access points -->
+                            <div
+                                style="border-top: 1px dashed rgba(74,63,53,0.2); padding-top: 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+                                <a href="https://github.com/ansh2903" target="_blank"
+                                    style="border: 2px solid var(--ink); padding: 8px 18px; font-family: 'Space Grotesk', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 6px; background: rgba(240,236,228,0.7);">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">code</span>GitHub —
+                                    Repository
+                                </a>
+                                <div
+                                    style="border: 2px solid rgba(74,63,53,0.25); padding: 8px 18px; font-family: 'Space Grotesk', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(74,63,53,0.4); display: flex; align-items: center; gap: 6px;">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 14px;">inventory_2</span>Docker Image — Pending v1
+                                </div>
+                            </div>
+                            <p class="hw"
+                                style="font-size: 12px; color: var(--red); margin-left: 4px; transform: rotate(-0.5deg); display: inline-block;">
+                                * 200 stars and a job offer. that's the entire v1 success criteria. lol</p>
+
+                            <!-- End of file footer -->
+                            <div
+                                style="margin-top: 28px; padding-top: 14px; border-top: 2px double rgba(74,63,53,0.25); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                <p class="hw" style="font-size: 13px; color: #9a8f85;">— End of EXP_01 records —</p>
+                                <div class="pnum" style="margin-top: 0;">— p.05 —</div>
+                            </div>
+                            <p class="hw"
+                                style="position: absolute; right: 14px; bottom: 10px; font-size: 10px; color: rgba(74,63,53,0.18);">
+                                Property of ScalAble Lab · Form #441-B</p>
+                        </div>
+                    </div>
+
+                </div><!-- /page stack -->
+            </div><!-- /folder-inner -->
+        </div><!-- /folder-back -->
+        </div><!-- /folder -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const el = document.getElementById('log-date');
+                if (!el) return;
+                const d = new Date();
+                const dd = String(d.getDate()).padStart(2, '0');
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                el.textContent = `Log Date: ${dd}.${mm}.${d.getFullYear()} // EXP_01 Laboratory Records`;
+            });
+        </script>
+    </body>
+
+</html>
