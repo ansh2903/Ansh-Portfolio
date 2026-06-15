@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EXP_02 — Hinglish LID // Fine-tuning Records</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --cream: #faf7ef;
+            --cream-dark: #f0ece0;
+            --ink: #1c1c18;
+            --red: #ba1a1a;
+            --green: #496800;
+            --rule: rgba(74, 63, 53, 0.11);
+            --grid: rgba(74, 63, 53, 0.09);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ccc7b2;
+            background-size: 4px 4px;
+            background-image: linear-gradient(90deg, transparent, transparent 3px, rgba(0, 0, 0, .07) 4px),
+                linear-gradient(transparent, transparent 3px, rgba(0, 0, 0, .07) 4px);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        .folder-back {
+            background: #c9b98b;
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            border-radius: 2px 2px 6px 6px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.12), inset 0 0 80px rgba(0, 0, 0, 0.04);
+        }
+
+        .folder-tab {
+            height: 30px;
+            background: #b8a870;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 24px;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .folder-tab-label {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #4a3f2a;
+        }
+
+        .folder-inner { padding: 16px 20px 28px; }
+
+        .page {
+            position: relative;
+            border-radius: 1px 3px 2px 4px / 3px 2px 4px 1px;
+            border: 1px solid rgba(93, 84, 75, 0.3);
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.03), 2px 2px 0 rgba(0, 0, 0, 0.03), 6px 10px 18px rgba(0, 0, 0, 0.12);
+            scroll-margin-top: 24px;
+        }
+
+        .ruled-page {
+            background-color: var(--cream);
+            background-image: linear-gradient(var(--rule) 1px, transparent 1px);
+            background-size: 100% 28px;
+            padding: 28px 36px 32px 68px;
+        }
+
+        .ruled-page::before {
+            content: '';
+            position: absolute;
+            left: 50px; top: 0; bottom: 0;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.45;
+        }
+
+        .ruled-page::after {
+            content: '';
+            position: absolute;
+            left: 52px; top: 0; bottom: 0;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.35;
+        }
+
+        .grid-page {
+            background-color: var(--cream);
+            background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 24px 24px;
+            padding: 24px 32px;
+        }
+
+        .plain-page {
+            background: var(--cream);
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            background-blend-mode: multiply;
+            padding: 28px 32px;
+        }
+
+        .staple {
+            width: 38px; height: 4px;
+            background: #c0bcb8;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .clip {
+            width: 8px; height: 50px;
+            border: 3px solid #a0998f;
+            border-radius: 5px 5px 0 0;
+            border-bottom: none;
+            position: relative;
+        }
+
+        .clip::after {
+            content: '';
+            position: absolute;
+            top: 7px; left: -6px;
+            width: 8px; height: 34px;
+            border: 3px solid #a0998f;
+            border-radius: 5px 5px 0 0;
+            border-bottom: none;
+        }
+
+        .tape {
+            display: inline-block;
+            background: rgba(255, 230, 90, 0.42);
+            border-top: 1px solid rgba(200, 180, 70, 0.38);
+            border-bottom: 1px solid rgba(200, 180, 70, 0.38);
+            padding: 3px 20px;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            color: #4a3820;
+        }
+
+        .sticky {
+            background: #fff9c0;
+            box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.04);
+            padding: 12px 14px;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            line-height: 1.55;
+            color: #3a3318;
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 3px solid currentColor;
+            padding: 3px 10px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.85;
+            mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0,0 1 0 0 0,0 0 1 0 0,0 0 0 20 -9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+        }
+
+        .hy { background: rgba(255, 228, 70, 0.4); padding: 0 2px; }
+        .hg { background: rgba(73, 104, 0, 0.13); padding: 0 2px; }
+
+        .logline { border-left: 3px solid var(--red); padding-left: 14px; margin-bottom: 14px; }
+
+        .mono { font-family: 'Space Grotesk', monospace; }
+        .hw { font-family: 'Architects Daughter', cursive; }
+
+        .pnum {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            color: rgba(74, 63, 53, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .pending-box {
+            border: 2px dashed rgba(74, 63, 53, 0.28);
+            padding: 14px 16px;
+            background: rgba(255, 249, 192, 0.45);
+            margin-top: 12px;
+        }
+
+        .pipeline-step {
+            border: 1px solid rgba(74, 63, 53, 0.2);
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .qa-block {
+            border: 1px solid rgba(74, 63, 53, 0.18);
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.28);
+            margin-bottom: 12px;
+        }
+
+        .toc-list { display: flex; flex-direction: column; gap: 0; }
+
+        .toc-item {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dotted rgba(74, 63, 53, 0.2);
+            text-decoration: none;
+            color: var(--ink);
+            transition: background 0.15s;
+        }
+
+        .toc-item:hover { background: rgba(73, 104, 0, 0.06); }
+        .toc-item:last-child { border-bottom: none; }
+
+        .toc-num {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--red);
+            min-width: 48px;
+            flex-shrink: 0;
+        }
+
+        .toc-title { font-family: 'Architects Daughter', cursive; font-size: 16px; flex: 1; }
+
+        .toc-dots {
+            flex: 1;
+            border-bottom: 1px dotted rgba(74, 63, 53, 0.25);
+            margin: 0 8px 4px;
+            min-width: 24px;
+        }
+
+        .toc-page {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            color: #9a8f85;
+            flex-shrink: 0;
+        }
+
+        .watch-item {
+            border-left: 3px solid var(--green);
+            padding-left: 14px;
+            margin-bottom: 14px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-8 md:p-14 flex justify-center items-start">
+    <div class="folder-back relative w-full max-w-[1100px]">
+        <div class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+            <div class="folder-tab"></div>
+        </div>
+        <div class="absolute inset-0 folder-back shadow-md rotate-[0.3deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+            <div class="folder-tab"></div>
+        </div>
+        <div class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+            <div class="folder-tab"></div>
+        </div>
+
+        <div class="folder-tab">
+            <span class="folder-tab-label">EXP_02 // LID // Records</span>
+            <span class="folder-tab-label" style="opacity:0.5;">Ref: FV-4006</span>
+        </div>
+
+        <div class="folder-inner">
+            <nav class="absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="index.html" title="Subject Info">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Subject Info</span>
+                </a>
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="Exp_01_Spore.html" title="Spore">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_01 [Spore]</span>
+                </a>
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-10 translate-x-0"
+                    style="background:var(--cream); border-color:#1c1c18; color:#1c1c18;" href="Exp_02_LID_Fine-tuning.html"
+                    title="LID Fine-tuning">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_02 [LID]</span>
+                </a>
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="pdf/Ansh Sharma Resume 6.pdf" title="Resume"
+                    target="_blank">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Resume</span>
+                </a>
+                <div class="hidden md:flex mb-6 mr-3">
+                    <span class="hw text-sm opacity-70" style="writing-mode: vertical-rl; transform: rotate(180deg);">FILE_REF: FV-4006</span>
+                </div>
+            </nav>
+
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+
+                <!-- p.01 — § 01 Executive Summary -->
+                <div id="sec-01" style="position: relative;">
+                    <div style="position: absolute; top: 14px; left: 18px; transform: rotate(-36deg); z-index: 10;">
+                        <div class="staple"></div>
+                        <div class="staple" style="margin-top: 9px; margin-left: 2px; transform: rotate(-5deg);"></div>
+                    </div>
+                    <div class="page plain-page" style="transform: rotate(0.2deg);">
+                        <div style="position: relative; margin-bottom: 22px;">
+                            <div class="tape" style="position: absolute; top: -14px; left: 24px; transform: rotate(-0.8deg); z-index: 2;">
+                                hinglish LID — fine-tune a small LLM</div>
+                            <div style="border: 1px solid rgba(74,63,53,0.18); padding: 18px 22px 14px; background: rgba(255,255,255,0.35); margin-top: 10px;">
+                                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                            <span class="material-symbols-outlined" style="color: var(--green); font-size: 2rem;">translate</span>
+                                            <h1 style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink);">Hinglish LID</h1>
+                                        </div>
+                                        <p id="log-date" class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.1em; margin-left: 42px;">
+                                            Log Date: --.--.---- // EXP_02</p>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 4px;">
+                                        <span class="stamp" style="color: var(--red); transform: rotate(-3deg);">Under Dev</span>
+                                        <span class="mono" style="font-size: 9px; color: #7a6f65;">In Progress</span>
+                                    </div>
+                                </div>
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 8px;">§ 01 — Executive Summary</p>
+                                <p class="hw" style="font-size: 15px; line-height: 1.75; color: var(--ink);">
+                                    Fine-tune a small LLM for <span class="hg">code-mixed Hinglish language identification</span> — a real problem statement backed by a corpus I collected for an academic research project (currently under review).
+                                    The dataset was the heavy lift and was completed months ago; preprocessing and training work is ongoing.
+                                    Data prep runs on <span class="hy">my own platform (Spore)</span> — ingest, profile, filter, export.
+                                    <br /><span style="color: #7a6f65;">Mid-level project scope: solid dataset engineering + a credible fine-tuning + eval story.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Task</p>
+                                <p class="hw" style="font-size: 13px;">Hinglish LID</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Data</p>
+                                <p class="hw" style="font-size: 13px;">Self-collected · multi-platform</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Prep tool</p>
+                                <p class="hw" style="font-size: 13px;">Spore platform</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Candidate model</p>
+                                <p class="hw" style="font-size: 13px;">Qwen3.5 4B (TBD)</p>
+                            </div>
+                        </div>
+                        <div class="pnum">— p.01 —</div>
+                    </div>
+                </div>
+
+                <!-- p.02 — Index -->
+                <div style="position: relative;">
+                    <div class="page plain-page" style="transform: rotate(-0.15deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">Field Report Index</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Table of contents</h2>
+                            <p class="hw" style="font-size: 13px; color: #7a6f65; margin-top: 6px;">Eight sections. Scaffold in place — fill in as work progresses.</p>
+                        </div>
+                        <nav class="toc-list" aria-label="Table of contents">
+                            <a class="toc-item" href="#sec-01"><span class="toc-num">§ 01</span><span class="toc-title">Executive Summary</span><span class="toc-dots"></span><span class="toc-page">p.01</span></a>
+                            <a class="toc-item" href="#sec-02"><span class="toc-num">§ 02</span><span class="toc-title">Problem Statement</span><span class="toc-dots"></span><span class="toc-page">p.03</span></a>
+                            <a class="toc-item" href="#sec-03"><span class="toc-num">§ 03</span><span class="toc-title">Dataset Provenance &amp; Labeling</span><span class="toc-dots"></span><span class="toc-page">p.04</span></a>
+                            <a class="toc-item" href="#sec-04"><span class="toc-num">§ 04</span><span class="toc-title">Preprocessing Pipeline</span><span class="toc-dots"></span><span class="toc-page">p.05</span></a>
+                            <a class="toc-item" href="#sec-05"><span class="toc-num">§ 05</span><span class="toc-title">Data Quality &amp; QA</span><span class="toc-dots"></span><span class="toc-page">p.06</span></a>
+                            <a class="toc-item" href="#sec-06"><span class="toc-num">§ 06</span><span class="toc-title">Model &amp; Fine-tuning Plan</span><span class="toc-dots"></span><span class="toc-page">p.07</span></a>
+                            <a class="toc-item" href="#sec-07"><span class="toc-num">§ 07</span><span class="toc-title">Evaluation Protocol</span><span class="toc-dots"></span><span class="toc-page">p.08</span></a>
+                            <a class="toc-item" href="#sec-08"><span class="toc-num">§ 08</span><span class="toc-title">Forward Considerations</span><span class="toc-dots"></span><span class="toc-page">p.09</span></a>
+                        </nav>
+                        <div class="pnum">— p.02 —</div>
+                    </div>
+                </div>
+
+                <!-- p.03 — § 02 Problem Statement -->
+                <div id="sec-02" style="position: relative;">
+                    <div class="page ruled-page" style="transform: rotate(0.1deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 02 — Problem Statement</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Why Hinglish LID is hard</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.7;">
+                                Language identification on <span class="hg">code-mixed Hinglish</span> text — Hindi and English (and Roman-script variants) interleaved in the same utterance.
+                                Standard LID tools assume clean monolingual input; social-media Hinglish breaks that assumption.
+                                The problem statement is fixed: classify language mix at the text level for downstream NLP in Indian-language contexts.
+                            </p>
+                        </div>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Research context</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Corpus collected as part of an academic data-annotation project. Paper under review — full citation and scope TBD.</p>
+                        </div>
+                        <div class="pending-box">
+                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Formal problem definition, label taxonomy, and example utterances with expected classifications.</p>
+                        </div>
+                        <div class="pnum">— p.03 —</div>
+                    </div>
+                </div>
+
+                <!-- p.04 — § 03 Dataset Provenance -->
+                <div id="sec-03" style="position: relative;">
+                    <div style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
+                        <div class="clip"></div>
+                    </div>
+                    <div class="page ruled-page" style="transform: rotate(-0.2deg);">
+                        <div class="sticky" style="position: absolute; top: 22px; right: 28px; width: 168px; transform: rotate(3.5deg); z-index: 5; font-size: 12px; line-height: 1.5;">
+                            I collected this data.<br />multi-platform scrape.<br />months of work.<br />
+                            <span style="color: var(--red); font-size: 11px;">— labels TBD below</span>
+                        </div>
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 03 — Dataset Provenance &amp; Labeling</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Where the data came from</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
+                                Self-collected across Reddit, Twitter/X, Instagram, Facebook, YouTube, and Telegram — each platform with its own access constraints and quirks.
+                                Two source datasets exist; preprocessing will compare them for redundancy before merge.
+                            </p>
+                        </div>
+                        <div class="qa-block">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Q — How were labels generated for training?</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                <span class="hy">[ to be filled ]</span> — annotation pipeline details, inter-annotator agreement, confidence-threshold approach from the research project.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                            <span class="stamp" style="color: var(--red); transform: rotate(2deg);">Under Review</span>
+                        </div>
+                        <div class="pending-box">
+                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Final row counts per source, per-platform breakdown, label schema, and train/val/test split sizes.</p>
+                        </div>
+                        <div class="pnum">— p.04 —</div>
+                    </div>
+                </div>
+
+                <!-- p.05 — § 04 Preprocessing Pipeline -->
+                <div id="sec-04" style="position: relative;">
+                    <div class="page grid-page" style="transform: rotate(-0.1deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 04 — Preprocessing Pipeline</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Dataset prep proposal</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
+                                Run on the <span class="hg">Spore platform</span> — ingest, profile, filter, export. Pipeline below is the planned sequence.
+                            </p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 1</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Two datasets</strong> — load both corpora, compare for redundant rows across sets.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 2</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Intra-set duplicates</strong> — check and drop duplicate rows within each dataset.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 3</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Empty rows</strong> — identify and drop null/blank text fields.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 4</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Special characters</strong> — normalize or strip emojis, control chars, and encoding artifacts.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 5</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Merge</strong> — combine into a single dataset if the two sets are mutually unique.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 6</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Token distribution</strong> — plot row-level token counts, apply filtering thresholds as needed.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 7</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Manual QA sample</strong> — read through a small sample to sanity-check data quality before training.</p>
+                        </div>
+                        <div class="pnum">— p.05 —</div>
+                    </div>
+                </div>
+
+                <!-- p.06 — § 05 Data Quality & QA -->
+                <div id="sec-05" style="position: relative;">
+                    <div class="page ruled-page" style="transform: rotate(0.12deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 05 — Data Quality &amp; QA</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Questions to answer with data</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px;">Open checklist — fill in numbers and charts as preprocessing completes.</p>
+                        </div>
+                        <div class="qa-block">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Label quality</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Sample ~100 records, read through manually, calculate annotation error rate. <span class="hy">[ to be filled ]</span></p>
+                        </div>
+                        <div class="qa-block">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Class distribution</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Per-label counts and imbalance ratio. <span class="hy">[ chart pending ]</span></p>
+                            <div class="pending-box" style="margin-top: 10px; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                                <p class="mono" style="font-size: 9px; color: #9a8f85;">[ chart pending — class distribution ]</p>
+                            </div>
+                        </div>
+                        <div class="qa-block">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Noise cleaning</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Strip HTTP links, spam comments, and low-signal boilerplate. Duplicates and nulls handled in § 04 pipeline.</p>
+                        </div>
+                        <div class="qa-block">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Row token-size distribution</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Histogram of tokens per row after filtering. <span class="hy">[ chart pending ]</span></p>
+                            <div class="pending-box" style="margin-top: 10px; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                                <p class="mono" style="font-size: 9px; color: #9a8f85;">[ chart pending — token distribution ]</p>
+                            </div>
+                        </div>
+                        <div class="pnum">— p.06 —</div>
+                    </div>
+                </div>
+
+                <!-- p.07 — § 06 Model & Fine-tuning Plan -->
+                <div id="sec-06" style="position: relative;">
+                    <div class="page grid-page" style="transform: rotate(-0.08deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 06 — Model &amp; Fine-tuning Plan</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">What to train and how</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
+                                Mid-level project — dataset engineering is the main story; fine-tuning and eval round it out.
+                            </p>
+                        </div>
+                        <div class="logline" style="margin-bottom: 16px;">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Candidate base model</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;"><code class="mono">Qwen3.5 4B</code> — likely starting point; will compare against alternatives before locking in.</p>
+                        </div>
+                        <div class="logline" style="margin-bottom: 16px;">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Quantization</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Compare quantization methods supported by the chosen model family (QLoRA, GPTQ, AWQ, etc.). <span class="hy">[ to be filled ]</span></p>
+                        </div>
+                        <div class="pending-box">
+                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Final model choice, training config (epochs, LR, batch size, LoRA rank), hardware used, and training loss curves.</p>
+                        </div>
+                        <div class="pnum">— p.07 —</div>
+                    </div>
+                </div>
+
+                <!-- p.08 — § 07 Evaluation Protocol -->
+                <div id="sec-07" style="position: relative;">
+                    <div class="page ruled-page" style="transform: rotate(0.15deg);">
+                        <div class="sticky" style="position: absolute; top: 22px; right: 28px; width: 175px; transform: rotate(-2deg); z-index: 5; font-size: 12px; line-height: 1.5;">
+                            baseline LLMs first.<br />then the tuned model.<br />regex-parse outputs.<br />
+                            <span style="color: var(--red); font-size: 11px;">— graphs to follow</span>
+                        </div>
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 07 — Evaluation Protocol</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">How to measure if it works</h2>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Holdout</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Reserve ~1000 rows <em>without labels</em> for inference-only evaluation (not used in training).</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Baseline pass</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Loop holdout through several off-the-shelf LLMs; regex-parse structured outputs; compare to gold labels.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Tuned model pass</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Same protocol on the fine-tuned model; plot side-by-side accuracy/F1 comparisons.</p>
+                        </div>
+                        <div class="pipeline-step logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Further metrics</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Confusion matrix, per-class recall, latency — <span class="hy">[ to be filled ]</span></p>
+                        </div>
+                        <div class="pending-box" style="min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                            <p class="mono" style="font-size: 9px; color: #9a8f85;">[ results pending — baseline vs fine-tuned comparison charts ]</p>
+                        </div>
+                        <div class="pnum">— p.08 —</div>
+                    </div>
+                </div>
+
+                <!-- p.09 — § 08 Forward Considerations -->
+                <div id="sec-08" style="position: relative;">
+                    <div class="page plain-page" style="transform: rotate(-0.2deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 08 — Forward Considerations</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Status &amp; next steps</h2>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Active</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Preprocessing pipeline on Spore; fine-tuning not started yet.</p>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Blocked on</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Research paper under review — some provenance and label details pending publication clearance.</p>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Next</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                Finish § 04 pipeline → fill § 05 charts → lock model in § 06 → run § 07 eval → update this page.
+                            </p>
+                        </div>
+                        <div class="pending-box">
+                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Timeline, repo link, demo inference endpoint, and lessons learned.</p>
+                        </div>
+                        <div class="pnum">— p.09 —</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var el = document.getElementById('log-date');
+            if (el) {
+                var d = new Date();
+                var dd = String(d.getDate()).padStart(2, '0');
+                var mm = String(d.getMonth() + 1).padStart(2, '0');
+                el.textContent = 'Log Date: ' + dd + '.' + mm + '.' + d.getFullYear() + ' // EXP_02';
+            }
+        });
+    </script>
+</body>
+
+</html>

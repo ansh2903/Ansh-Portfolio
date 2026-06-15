@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EXP_01 — Spore // Laboratory Records</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --cream: #faf7ef;
+            --cream-dark: #f0ece0;
+            --ink: #1c1c18;
+            --red: #ba1a1a;
+            --green: #496800;
+            --rule: rgba(74, 63, 53, 0.11);
+            --grid: rgba(74, 63, 53, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ccc7b2;
+            background-size: 4px 4px;
+            background-image: linear-gradient(90deg, transparent, transparent 3px, rgba(0, 0, 0, .07) 4px),
+                linear-gradient(transparent, transparent 3px, rgba(0, 0, 0, .07) 4px);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        .folder-back {
+            background: #c9b98b;
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            border-radius: 2px 2px 6px 6px;
+            box-shadow:
+                0 6px 24px rgba(0, 0, 0, 0.22),
+                0 2px 6px rgba(0, 0, 0, 0.12),
+                inset 0 0 80px rgba(0, 0, 0, 0.04);
+        }
+
+        .folder-tab {
+            height: 30px;
+            background: #b8a870;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 24px;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .folder-tab-label {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #4a3f2a;
+        }
+
+        .folder-inner {
+            padding: 16px 20px 28px;
+        }
+
+        .page {
+            position: relative;
+            border-radius: 1px 3px 2px 4px / 3px 2px 4px 1px;
+            border: 1px solid rgba(93, 84, 75, 0.3);
+            box-shadow:
+                1px 1px 0 rgba(0, 0, 0, 0.03),
+                2px 2px 0 rgba(0, 0, 0, 0.03),
+                6px 10px 18px rgba(0, 0, 0, 0.12);
+            scroll-margin-top: 24px;
+        }
+
+        .ruled-page {
+            background-color: var(--cream);
+            background-image: linear-gradient(var(--rule) 1px, transparent 1px);
+            background-size: 100% 28px;
+            padding: 28px 36px 32px 68px;
+        }
+
+        .ruled-page::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.45;
+        }
+
+        .ruled-page::after {
+            content: '';
+            position: absolute;
+            left: 52px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.35;
+        }
+
+        .grid-page {
+            background-color: var(--cream);
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 24px 24px;
+            padding: 24px 32px;
+        }
+
+        .plain-page {
+            background: var(--cream);
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            background-blend-mode: multiply;
+            padding: 28px 32px;
+        }
+
+        .staple {
+            width: 38px;
+            height: 4px;
+            background: #c0bcb8;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .clip {
+            width: 8px;
+            height: 50px;
+            border: 3px solid #a0998f;
+            border-radius: 5px 5px 0 0;
+            border-bottom: none;
+            position: relative;
+        }
+
+        .clip::after {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: -6px;
+            width: 8px;
+            height: 34px;
+            border: 3px solid #a0998f;
+            border-radius: 5px 5px 0 0;
+            border-bottom: none;
+        }
+
+        .tape {
+            display: inline-block;
+            background: rgba(255, 230, 90, 0.42);
+            border-top: 1px solid rgba(200, 180, 70, 0.38);
+            border-bottom: 1px solid rgba(200, 180, 70, 0.38);
+            padding: 3px 20px;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            color: #4a3820;
+        }
+
+        .sticky {
+            background: #fff9c0;
+            box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.04);
+            padding: 12px 14px;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            line-height: 1.55;
+            color: #3a3318;
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 3px solid currentColor;
+            padding: 3px 10px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.85;
+            mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0,0 1 0 0 0,0 0 1 0 0,0 0 0 20 -9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+        }
+
+        .rx {
+            background: var(--ink);
+            color: transparent;
+            padding: 0 4px;
+            user-select: none;
+            cursor: help;
+        }
+
+        .hy {
+            background: rgba(255, 228, 70, 0.4);
+            padding: 0 2px;
+        }
+
+        .hg {
+            background: rgba(73, 104, 0, 0.13);
+            padding: 0 2px;
+        }
+
+        .logline {
+            border-left: 3px solid var(--red);
+            padding-left: 14px;
+        }
+
+        .dn {
+            display: inline-block;
+            border: 2px solid var(--ink);
+            padding: 5px 12px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--cream);
+        }
+
+        .dn.x {
+            border-color: var(--red);
+            color: var(--red);
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .dn.x::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -2px;
+            right: -2px;
+            height: 2px;
+            background: var(--red);
+            transform: rotate(-2deg);
+        }
+
+        .dn.ok {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .mono {
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        .hw {
+            font-family: 'Architects Daughter', cursive;
+        }
+
+        .pnum {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            color: rgba(74, 63, 53, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .proto {
+            border: 2px dashed rgba(74, 63, 53, 0.28);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 8px,
+                    rgba(74, 63, 53, 0.03) 8px, rgba(74, 63, 53, 0.03) 16px);
+            overflow: hidden;
+        }
+
+        .proto img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid rgba(74, 63, 53, 0.15);
+        }
+
+        .anode {
+            border: 2px solid var(--ink);
+            padding: 8px 14px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: var(--cream);
+            text-align: center;
+            min-width: 130px;
+        }
+
+        .anode.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .arch-detail {
+            border: 1px dashed rgba(74, 63, 53, 0.28);
+            padding: 14px 16px;
+            background: rgba(255, 249, 192, 0.45);
+        }
+
+        .toc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dotted rgba(74, 63, 53, 0.2);
+            text-decoration: none;
+            color: var(--ink);
+            transition: background 0.15s;
+        }
+
+        .toc-item:hover {
+            background: rgba(73, 104, 0, 0.06);
+        }
+
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+
+        .toc-num {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--red);
+            min-width: 48px;
+            flex-shrink: 0;
+        }
+
+        .toc-title {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .toc-dots {
+            flex: 1;
+            border-bottom: 1px dotted rgba(74, 63, 53, 0.25);
+            margin: 0 8px 4px;
+            min-width: 24px;
+        }
+
+        .toc-page {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            color: #9a8f85;
+            flex-shrink: 0;
+        }
+
+        .scenario-card {
+            border: 1px solid rgba(74, 63, 53, 0.2);
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .regret-item {
+            border: 1px solid rgba(186, 26, 26, 0.25);
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.28);
+            margin-bottom: 12px;
+        }
+
+        .watch-item {
+            border-left: 3px solid var(--green);
+            padding-left: 14px;
+            margin-bottom: 14px;
+        }
+
+        .arch-explorer {
+            border: 1px solid rgba(74, 63, 53, 0.18);
+            padding: 16px 14px 20px;
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .arch-explorer-toolbar {
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(74, 63, 53, 0.2);
+        }
+
+        .arch-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 14px;
+        }
+
+        .arch-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #5d544b;
+        }
+
+        .arch-legend-swatch {
+            width: 18px;
+            height: 3px;
+            border-radius: 1px;
+            flex-shrink: 0;
+        }
+
+        .arch-legend-swatch.solid { background: var(--red); }
+        .arch-legend-swatch.dashed { background: repeating-linear-gradient(90deg, var(--green) 0 4px, transparent 4px 7px); }
+        .arch-legend-swatch.dotted { background: repeating-linear-gradient(90deg, #7a6f65 0 2px, transparent 2px 5px); }
+
+        .arch-view {
+            display: none;
+        }
+
+        .arch-view.active {
+            display: block;
+        }
+
+        .arch-viewbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px dotted rgba(74, 63, 53, 0.2);
+        }
+
+        .arch-back {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--red);
+            background: transparent;
+            border: 1px dashed rgba(186, 26, 26, 0.45);
+            padding: 5px 12px;
+            cursor: pointer;
+        }
+
+        .arch-back:hover {
+            background: rgba(186, 26, 26, 0.06);
+        }
+
+        .arch-back:focus-visible {
+            outline: 2px dashed var(--red);
+            outline-offset: 2px;
+        }
+
+        .arch-breadcrumb {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 13px;
+            color: #5d544b;
+        }
+
+        .arch-breadcrumb .mono {
+            color: var(--green);
+        }
+
+        .arch-view-title {
+            font-size: 18px;
+            color: var(--ink);
+            margin-bottom: 14px;
+        }
+
+        .arch-view-title:focus {
+            outline: none;
+        }
+
+        .arch-view-title:focus-visible {
+            outline: 2px dashed var(--green);
+            outline-offset: 3px;
+        }
+
+        .arch-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .arch-rank {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .arch-rank-pair .arch-node { flex: 1 1 140px; max-width: 280px; }
+        .arch-rank-triple .arch-node { flex: 1 1 120px; max-width: 220px; }
+        .arch-rank-single { justify-content: center; }
+        .arch-rank-single .arch-node { flex: 1 1 200px; max-width: 480px; }
+        .arch-rank-single .arch-node.wide { max-width: 560px; }
+
+        .arch-rank-chain {
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 4px;
+        }
+
+        .arch-rank-chain .arch-node {
+            flex: 1 1 100px;
+            max-width: 180px;
+        }
+
+        .arch-node {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border: 2px solid var(--ink);
+            padding: 10px 12px;
+            background: var(--cream);
+            text-align: left;
+            min-width: 0;
+        }
+
+        .arch-node.static {
+            background: rgba(250, 247, 239, 0.85);
+        }
+
+        .arch-node.hub {
+            border-color: var(--green);
+        }
+
+        .arch-node.policy {
+            border-color: var(--red);
+            border-style: dashed;
+            background: rgba(255, 249, 192, 0.45);
+        }
+
+        .arch-node-title {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--green);
+        }
+
+        .arch-node.policy .arch-node-title {
+            color: var(--red);
+        }
+
+        .arch-node-body {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 12px;
+            line-height: 1.45;
+            color: var(--ink);
+        }
+
+        .arch-node-hint {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9a8f85;
+            margin-top: 2px;
+        }
+
+        .arch-node.clickable {
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+            width: 100%;
+        }
+
+        .arch-node.clickable:hover {
+            transform: translateY(-2px);
+            box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .arch-node.clickable:focus-visible {
+            outline: 2px dashed var(--red);
+            outline-offset: 2px;
+        }
+
+        .arch-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 0;
+            gap: 2px;
+        }
+
+        .arch-flow-label {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 11px;
+            color: var(--red);
+            text-align: center;
+            max-width: 420px;
+        }
+
+        .arch-flow-sub {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #9a8f85;
+        }
+
+        .arch-flow.dotted .arch-flow-label {
+            color: #7a6f65;
+        }
+
+        .arch-flow-h {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            flex-shrink: 0;
+            padding: 0 4px;
+        }
+
+        .arch-flow-h-label {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #9a8f85;
+            text-align: center;
+            max-width: 72px;
+        }
+
+        .arch-footnote {
+            font-size: 13px;
+            color: #7a6f65;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(74, 63, 53, 0.18);
+        }
+
+        @media (max-width: 640px) {
+            .arch-rank-pair,
+            .arch-rank-triple,
+            .arch-rank-chain {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .arch-rank-pair .arch-node,
+            .arch-rank-triple .arch-node,
+            .arch-rank-single .arch-node,
+            .arch-rank-chain .arch-node {
+                max-width: none;
+            }
+
+            .arch-flow-h {
+                transform: rotate(90deg);
+                padding: 8px 0;
+            }
+
+            .arch-node-body { font-size: 11px; }
+            .arch-view-title { font-size: 16px; }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-8 md:p-14 flex justify-center items-start">
+    <div class="folder-back relative w-full max-w-[1100px]">
+        <div class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+            <div class="folder-tab"></div>
+        </div>
+        <div class="absolute inset-0 folder-back shadow-md rotate-[0.3deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+            <div class="folder-tab"></div>
+        </div>
+        <div class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
+            <div class="folder-tab"></div>
+        </div>
+
+        <div class="folder-tab">
+            <span class="folder-tab-label">EXP_01 // Spore // Records</span>
+            <span class="folder-tab-label" style="opacity:0.5;">Ref: FV-4005</span>
+        </div>
+
+        <div class="folder-inner">
+            <nav class="absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="index.html" title="Subject Info">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Subject Info</span>
+                </a>
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-10 translate-x-0"
+                    style="background:var(--cream); border-color:#1c1c18; color:#1c1c18;" href="Exp_01_Spore.html"
+                    title="Experiments">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_01 [Spore]</span>
+                </a>
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="pdf/Ansh Sharma Resume 6.pdf" title="Resume"
+                    target="_blank">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Resume</span>
+                </a>
+                <div class="hidden md:flex mb-6 mr-3">
+                    <span class="hw text-sm opacity-70" style="writing-mode: vertical-rl; transform: rotate(180deg);">FILE_REF: FV-4005</span>
+                </div>
+            </nav>
+
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+
+                <!-- p.01 — § 01 Executive Summary -->
+                <div id="sec-01" style="position: relative;">
+                    <div style="position: absolute; top: 14px; left: 18px; transform: rotate(-36deg); z-index: 10;">
+                        <div class="staple"></div>
+                        <div class="staple" style="margin-top: 9px; margin-left: 2px; transform: rotate(-5deg);"></div>
+                    </div>
+                    <div class="page plain-page" style="transform: rotate(0.2deg);">
+                        <div style="position: relative; margin-bottom: 22px;">
+                            <div class="tape" style="position: absolute; top: -14px; left: 24px; transform: rotate(-0.8deg); z-index: 2;">
+                                what even is this project</div>
+                            <div style="border: 1px solid rgba(74,63,53,0.18); padding: 18px 22px 14px; background: rgba(255,255,255,0.35); margin-top: 10px;">
+                                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                            <span class="material-symbols-outlined" style="color: var(--green); font-size: 2rem;">science</span>
+                                            <h1 style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink);">Spore</h1>
+                                        </div>
+                                        <p id="log-date" class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.1em; margin-left: 42px;">
+                                            Log Date: --.--.---- // EXP_01</p>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 4px;">
+                                        <span class="stamp" style="color: var(--green); transform: rotate(4deg);">Active · Beta</span>
+                                        <span class="mono" style="font-size: 9px; color: #7a6f65;">Apache 2.0</span>
+                                    </div>
+                                </div>
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 8px;">§ 01 — Executive Summary</p>
+                                <p class="hw" style="font-size: 15px; line-height: 1.75; color: var(--ink);">
+                                    A local-first data platform for constrained environments — healthcare, finance, legal, HR, air-gapped networks —
+                                    where <span class="hy">"just use the cloud"</span> isn't an answer. Natural language in, SQL out, human review before execution,
+                                    results materialized locally as Parquet, analysis in a sandboxed Jupyter kernel.
+                                    Open source. No payment tiers. No accounts. Ships as a Docker image.
+                                    Not here to replace pgAdmin or Hex — <span class="hg">coexists with them</span>.
+                                    <br /><span style="color: #7a6f65;">Started as NL→SQL. Then I couldn't stop adding things to it.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Validated on</p>
+                                <p class="hw" style="font-size: 13px;">6.7 GB TSV ✓</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Hardware</p>
+                                <p class="hw" style="font-size: 13px;">Ryzen 7 5800H · 16GB · no GPU</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">License</p>
+                                <p class="hw" style="font-size: 13px;">Apache 2.0 · Open Source</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">v1 Goal</p>
+                                <p class="hw" style="font-size: 13px;">200 ★ on GitHub + a job lol</p>
+                            </div>
+                        </div>
+                        <div class="pnum">— p.01 —</div>
+                    </div>
+                </div>
+
+                <!-- p.02 — Index -->
+                <div style="position: relative;">
+                    <div class="page plain-page" style="transform: rotate(-0.15deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">Field Report Index</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Table of contents</h2>
+                            <p class="hw" style="font-size: 13px; color: #7a6f65; margin-top: 6px;">Nine sections. Read in order or jump to what you care about.</p>
+                        </div>
+                        <nav class="toc-list" aria-label="Table of contents">
+                            <a class="toc-item" href="#sec-01"><span class="toc-num">§ 01</span><span class="toc-title">Executive Summary</span><span class="toc-dots"></span><span class="toc-page">p.01</span></a>
+                            <a class="toc-item" href="#sec-02"><span class="toc-num">§ 02</span><span class="toc-title">Deployment Scenarios</span><span class="toc-dots"></span><span class="toc-page">p.03</span></a>
+                            <a class="toc-item" href="#sec-03"><span class="toc-num">§ 03</span><span class="toc-title">System Architecture</span><span class="toc-dots"></span><span class="toc-page">p.04</span></a>
+                            <a class="toc-item" href="#sec-04"><span class="toc-num">§ 04</span><span class="toc-title">Technical Core</span><span class="toc-dots"></span><span class="toc-page">p.05</span></a>
+                            <a class="toc-item" href="#sec-05"><span class="toc-num">§ 05</span><span class="toc-title">Constraints &amp; Trade-offs</span><span class="toc-dots"></span><span class="toc-page">p.06</span></a>
+                            <a class="toc-item" href="#sec-06"><span class="toc-num">§ 06</span><span class="toc-title">Post-Mortem &amp; Regrets</span><span class="toc-dots"></span><span class="toc-page">p.07</span></a>
+                            <a class="toc-item" href="#sec-07"><span class="toc-num">§ 07</span><span class="toc-title">Field Logs</span><span class="toc-dots"></span><span class="toc-page">p.08</span></a>
+                            <a class="toc-item" href="#sec-08"><span class="toc-num">§ 08</span><span class="toc-title">Forward Considerations</span><span class="toc-dots"></span><span class="toc-page">p.09</span></a>
+                            <a class="toc-item" href="#sec-09"><span class="toc-num">§ 09</span><span class="toc-title">Visual Intel &amp; Access Protocols</span><span class="toc-dots"></span><span class="toc-page">p.10</span></a>
+                        </nav>
+                        <div class="pnum">— p.02 —</div>
+                    </div>
+                </div>
+
+                <!-- p.03 — § 02 Deployment Scenarios -->
+                <div id="sec-02" style="position: relative;">
+                    <div class="page ruled-page" style="transform: rotate(0.1deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 02 — Deployment Scenarios</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Who needs this, and why</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.7;">
+                                Spore exists for teams where data cannot leave the premises — not because of preference, but policy.
+                                The threat model is realistic: regulated industries, isolated networks, orgs that cannot send schema metadata or query text to cloud LLMs.
+                            </p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                            <div class="scenario-card">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Healthcare</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">PHI stays on-prem. Analysts ask questions in plain English; LLM runs locally via Ollama. No patient rows shipped to OpenAI.</p>
+                            </div>
+                            <div class="scenario-card">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Finance</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">Schema-level scoping maps to existing access control. Finance sees finance tables. Audit trail: human approves every query before it runs.</p>
+                            </div>
+                            <div class="scenario-card">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Legal / HR</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">Sensitive personnel data never touches a SaaS notebook. Materialize locally, analyze in sandbox, export offline HTML reports.</p>
+                            </div>
+                            <div class="scenario-card">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Air-gapped / Isolated</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">Docker image + local LLM. No accounts, no telemetry, no outbound calls required. Redis and kernels stay inside the compose stack.</p>
+                            </div>
+                        </div>
+                        <p class="hw" style="font-size: 13px; color: #7a6f65; margin-top: 16px; padding-top: 12px; border-top: 1px dashed rgba(74,63,53,0.18);">
+                            * Common thread: <span class="hg">privacy by architecture</span>, not by checkbox. Local-first is the default; cloud LLMs are optional overrides.
+                        </p>
+                        <div class="pnum">— p.03 —</div>
+                    </div>
+                </div>
+
+                <!-- p.04 — § 03 System Architecture -->
+                <div id="sec-03" style="position: relative;">
+                    <div style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
+                        <div class="clip"></div>
+                    </div>
+                    <div class="page ruled-page" style="transform: rotate(-0.25deg);">
+                        <div class="sticky" style="position: absolute; top: 22px; right: 28px; width: 168px; transform: rotate(3.5deg); z-index: 5; font-size: 12px; line-height: 1.5;">
+                            push-down compute.<br />keep data close to<br />where work happens.<br />
+                            <span style="color: var(--red); font-size: 11px;">— click a subsystem to drill in</span>
+                        </div>
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 03 — System Architecture</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Interactive architecture explorer</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
+                                Hub-and-spoke wiring diagram of the full platform. Click any subsystem node to open its inner component diagram — Back returns to the map.
+                            </p>
+                        </div>
+                        <div id="arch-explorer" class="arch-explorer">
+                            <div class="arch-explorer-toolbar">
+                                <div class="arch-legend" aria-label="Transport legend">
+                                    <span class="arch-legend-item"><span class="arch-legend-swatch solid"></span> HTTP / SSE</span>
+                                    <span class="arch-legend-item"><span class="arch-legend-swatch dashed"></span> Socket.IO</span>
+                                    <span class="arch-legend-item"><span class="arch-legend-swatch dotted"></span> ZMQ / disk / Redis</span>
+                                </div>
+                            </div>
+
+                            <!-- OVERVIEW -->
+                            <div id="arch-view-overview" class="arch-view active" role="region" aria-labelledby="arch-overview-title">
+                                <h3 id="arch-overview-title" class="arch-view-title hw" tabindex="-1">Platform map</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-pair">
+                                        <button type="button" class="arch-node clickable" data-view="arch-view-client">
+                                            <span class="arch-node-title">01 · Client</span>
+                                            <span class="arch-node-body">Jinja · notebook.js · HTMX · SSE · Socket.IO</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                        <div class="arch-flow-h" aria-hidden="true">
+                                            <svg width="48" height="14" viewBox="0 0 48 14"><path d="M2 7 C14 3 34 3 46 7 L42 4 M46 7 L42 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg>
+                                            <span class="arch-flow-h-label">HTTP · SSE · Socket.IO</span>
+                                        </div>
+                                        <button type="button" class="arch-node clickable hub" data-view="arch-view-app">
+                                            <span class="arch-node-title">02 · Application</span>
+                                            <span class="arch-node-body">Flask hub · 9 blueprints · Redis session</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">routes delegate to subsystems</span></div>
+                                    <div class="arch-rank arch-rank-triple">
+                                        <button type="button" class="arch-node clickable" data-view="arch-view-ai">
+                                            <span class="arch-node-title">03 · Inference + Agent</span>
+                                            <span class="arch-node-body">LLM · WorkspaceAgent · tools</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                        <button type="button" class="arch-node clickable" data-view="arch-view-connectors">
+                                            <span class="arch-node-title">04 · Connectors</span>
+                                            <span class="arch-node-body">REGISTRY · 16 source types</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                        <button type="button" class="arch-node clickable" data-view="arch-view-kernel">
+                                            <span class="arch-node-title">06 · Kernel Sandbox</span>
+                                            <span class="arch-node-body">DinD · ZMQ · IOPub</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 3"/></svg><span class="arch-flow-label">ingest → Parquet · server tools · reads volume</span><span class="arch-flow-sub">shared data sink</span></div>
+                                    <div class="arch-rank arch-rank-single">
+                                        <button type="button" class="arch-node clickable wide" data-view="arch-view-compute">
+                                            <span class="arch-node-title">05 · Compute + Storage</span>
+                                            <span class="arch-node-body">streams · relations · query_stream · WorkspaceStore · /data layout</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                    </div>
+                                    <div class="arch-flow dotted"><svg width="24" height="28" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="#7a6f65" stroke-width="1.5" stroke-dasharray="3 4"/></svg><span class="arch-flow-label">settings.json · env · Fernet</span><span class="arch-flow-sub">feeds all layers</span></div>
+                                    <div class="arch-rank arch-rank-single">
+                                        <button type="button" class="arch-node clickable" data-view="arch-view-config">
+                                            <span class="arch-node-title">07 · Config + Utils</span>
+                                            <span class="arch-node-body">VENDOR_CONFIG · _utils · settings.json</span>
+                                            <span class="arch-node-hint">drill in →</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CLIENT INNER -->
+                            <div id="arch-view-client" class="arch-view" role="region" aria-labelledby="arch-client-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Client · Presentation</span>
+                                </div>
+                                <h3 id="arch-client-title" class="arch-view-title hw" tabindex="-1">Client / Presentation — inner wiring</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-triple">
+                                        <div class="arch-node static"><span class="arch-node-title">Jinja Pages</span><span class="arch-node-body">index · chat · connections · settings · dashboard</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">HTMX Partials</span><span class="arch-node-body">partials/form.html · vendor forms</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">SSE Consumers</span><span class="arch-node-body">/chat/ask · /query-preview · /ingest</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">parsed by notebook.js</span></div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static hub"><span class="arch-node-title">notebook.js</span><span class="arch-node-body">XML parser · Monaco · agent panel · kernel UI</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="48" height="14" viewBox="0 0 48 14"><path d="M2 7 C14 3 34 3 46 7 L42 4 M46 7 L42 10" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/></svg><span class="arch-flow-h-label">Socket.IO</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">Socket.IO Client</span><span class="arch-node-body">kernel_* · agent_run · agent_tool_result</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">HTTP · SSE · Socket.IO → Application</span></div>
+                                </div>
+                            </div>
+
+                            <!-- APPLICATION INNER -->
+                            <div id="arch-view-app" class="arch-view" role="region" aria-labelledby="arch-app-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Application</span>
+                                </div>
+                                <h3 id="arch-app-title" class="arch-view-title hw" tabindex="-1">Application — Flask + SocketIO</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static hub"><span class="arch-node-title">create_app()</span><span class="arch-node-body">extensions · blueprints · sockets</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="48" height="14" viewBox="0 0 48 14"><path d="M2 7 C14 3 34 3 46 7 L42 4 M46 7 L42 10" stroke="#7a6f65" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/></svg><span class="arch-flow-h-label">Redis</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">Flask-Session</span><span class="arch-node-body">connections · push_staging · spore_session:</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">9 registered blueprints</span></div>
+                                    <div class="arch-rank arch-rank-triple">
+                                        <div class="arch-node static"><span class="arch-node-title">data</span><span class="arch-node-body">/query-preview · /ingest · /push/*</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">workspace</span><span class="arch-node-body">/chat · workspaces API · relations · dash export</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">connections</span><span class="arch-node-body">/test-connection · /registry</span></div>
+                                    </div>
+                                    <div class="arch-rank arch-rank-triple">
+                                        <div class="arch-node static"><span class="arch-node-title">fs · notebooks</span><span class="arch-node-body">/api/fs/* · .ipynb save/export</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">api_proxy</span><span class="arch-node-body">REST/GraphQL forward</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">settings · dashboard</span><span class="arch-node-body">LLM/kernel lab · /api/widgets/query</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">delegates → Inference · Connectors · Compute · Kernel</span></div>
+                                </div>
+                            </div>
+
+                            <!-- AI INNER -->
+                            <div id="arch-view-ai" class="arch-view" role="region" aria-labelledby="arch-ai-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Inference + Agent</span>
+                                </div>
+                                <h3 id="arch-ai-title" class="arch-view-title hw" tabindex="-1">Inference + Agent</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static"><span class="arch-node-title">model_manager</span><span class="arch-node-body">get_engine() · reset_engine() singleton</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="48" height="14" viewBox="0 0 48 14"><path d="M2 7 C14 3 34 3 46 7 L42 4 M46 7 L42 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg></div>
+                                        <div class="arch-node static hub"><span class="arch-node-title">InferenceEngine</span><span class="arch-node-body">&lt;query&gt;/&lt;comment&gt; · ollama/openai/anthropic/gemini/lmstudio</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">WorkspaceAgent.run()</span></div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static"><span class="arch-node-title">SERVER_TOOLS</span><span class="arch-node-body">propose_sql · describe_relation · query_relation · render_chart</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="48" height="14" viewBox="0 0 48 14"><path d="M2 7 C14 3 34 3 46 7 L42 4 M46 7 L42 10" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/></svg><span class="arch-flow-h-label">agent_pending</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">CLIENT_TOOLS</span><span class="arch-node-body">run_python · add_notebook_cell · add_dashboard_widget</span></div>
+                                    </div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static policy"><span class="arch-node-title">Policy</span><span class="arch-node-body">LLM never executes. Remote-exec tools blocked for agent.</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">agent_history</span><span class="arch-node-body">per-workspace ChatMessageHistory (max 20)</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 3"/></svg><span class="arch-flow-label">query_relation → query_stream (local data only)</span></div>
+                                </div>
+                            </div>
+
+                            <!-- CONNECTORS INNER -->
+                            <div id="arch-view-connectors" class="arch-view" role="region" aria-labelledby="arch-conn-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Connectors</span>
+                                </div>
+                                <h3 id="arch-conn-title" class="arch-view-title hw" tabindex="-1">Connectors — REGISTRY</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-chain">
+                                        <div class="arch-node static"><span class="arch-node-title">SourceConnector</span><span class="arch-node-body">Fernet decrypt → delegate</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="32" height="14" viewBox="0 0 32 14"><path d="M2 7 H30 M26 4 L30 7 L26 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg></div>
+                                        <div class="arch-node static"><span class="arch-node-title">REGISTRY</span><span class="arch-node-body">16 source_type → class</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="32" height="14" viewBox="0 0 32 14"><path d="M2 7 H30 M26 4 L30 7 L26 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg></div>
+                                        <div class="arch-node static hub"><span class="arch-node-title">BaseSource</span><span class="arch-node-body">SSH/SSL · capabilities · classify_query</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--red)" stroke-width="1.5"/></svg><span class="arch-flow-label">shared engines _duck.py · _dbapi.py</span></div>
+                                    <div class="arch-rank arch-rank-triple">
+                                        <div class="arch-node static"><span class="arch-node-title">DB</span><span class="arch-node-body">pg · mysql · mssql · sqlite · mongo</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">Warehouses</span><span class="arch-node-body">bq · snowflake · redshift · clickhouse · databricks</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">API · Files</span><span class="arch-node-body">rest · graphql · csv/excel/json/parquet</span></div>
+                                    </div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static"><span class="arch-node-title">Preview</span><span class="arch-node-body">bounded SSE · default 500 rows</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="48" height="14" viewBox="0 0 48 14"><path d="M2 7 C14 3 34 3 46 7 L42 4 M46 7 L42 10" stroke="#7a6f65" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/></svg><span class="arch-flow-h-label">disk</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">Ingest</span><span class="arch-node-body">Arrow batches → streams/&lt;name&gt;/source.parquet</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COMPUTE INNER -->
+                            <div id="arch-view-compute" class="arch-view" role="region" aria-labelledby="arch-compute-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Compute + Storage</span>
+                                </div>
+                                <h3 id="arch-compute-title" class="arch-view-title hw" tabindex="-1">Compute + Storage</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-chain">
+                                        <div class="arch-node static"><span class="arch-node-title">streams.py</span><span class="arch-node-body">resolve_source · duckdb_read</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="28" height="14" viewBox="0 0 28 14"><path d="M2 7 H26 M22 4 L26 7 L22 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg></div>
+                                        <div class="arch-node static"><span class="arch-node-title">relations.py</span><span class="arch-node-body">scan · reconcile · profile</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="28" height="14" viewBox="0 0 28 14"><path d="M2 7 H26 M22 4 L26 7 L22 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg></div>
+                                        <div class="arch-node static hub"><span class="arch-node-title">query.py</span><span class="arch-node-body">query_stream · SELECT-only · transforms</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="#7a6f65" stroke-width="1.5" stroke-dasharray="3 4"/></svg><span class="arch-flow-label">persisted in WorkspaceStore + Redis session</span></div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static"><span class="arch-node-title">WorkspaceStore</span><span class="arch-node-body">SQLite workspaces.db · state · history</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">Data layout</span><span class="arch-node-body">/data/streams/ · notebooks/ · workspaces.db</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- KERNEL INNER -->
+                            <div id="arch-view-kernel" class="arch-view" role="region" aria-labelledby="arch-kernel-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Kernel Sandbox</span>
+                                </div>
+                                <h3 id="arch-kernel-title" class="arch-view-title hw" tabindex="-1">Kernel Sandbox — DinD</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-chain">
+                                        <div class="arch-node static"><span class="arch-node-title">kernel/store</span><span class="arch-node-body">get_kernel(session_id)</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="28" height="14" viewBox="0 0 28 14"><path d="M2 7 H26 M22 4 L26 7 L22 10" stroke="var(--red)" stroke-width="1.5" fill="none"/></svg></div>
+                                        <div class="arch-node static hub"><span class="arch-node-title">DockerKernel</span><span class="arch-node-body">KERNEL_IMAGE · DinD · volume mount</span></div>
+                                        <div class="arch-flow-h" aria-hidden="true"><svg width="28" height="14" viewBox="0 0 28 14"><path d="M2 7 H26 M22 4 L26 7 L22 10" stroke="#7a6f65" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/></svg><span class="arch-flow-h-label">ZMQ</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">Ports 50000–50004</span><span class="arch-node-body">shell · iopub · stdin · control · hb</span></div>
+                                    </div>
+                                    <div class="arch-flow"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 3"/></svg><span class="arch-flow-label">socket_events · kernel_* · agent_*</span></div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static policy"><span class="arch-node-title">Security caps</span><span class="arch-node-body">cap_drop ALL · mem/pids limits · single volume</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">IOPub loop</span><span class="arch-node-body">stream/display/result · exec_timeout · cell_id</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CONFIG INNER -->
+                            <div id="arch-view-config" class="arch-view" role="region" aria-labelledby="arch-config-title" aria-hidden="true" hidden>
+                                <div class="arch-viewbar">
+                                    <button type="button" class="arch-back" data-view="arch-view-overview">← Back to map</button>
+                                    <span class="arch-breadcrumb"><span class="mono">Architecture</span> / Config + Utils</span>
+                                </div>
+                                <h3 id="arch-config-title" class="arch-view-title hw" tabindex="-1">Config + Utils</h3>
+                                <div class="arch-stage">
+                                    <div class="arch-rank arch-rank-triple">
+                                        <div class="arch-node static"><span class="arch-node-title">Settings env</span><span class="arch-node-body">REDIS_* · KERNEL_* · ENCRYPTION_KEY</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">VENDOR_CONFIG</span><span class="arch-node-body">forms · COMMON_LAYERS · icons</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">settings.json</span><span class="arch-node-body">LLM · kernel · security · data sections</span></div>
+                                    </div>
+                                    <div class="arch-flow dotted"><svg width="24" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 2 C8 10 16 14 12 22 L9 19 M12 22 L15 19" stroke="#7a6f65" stroke-width="1.5" stroke-dasharray="3 4"/></svg><span class="arch-flow-label">feeds all subsystems</span></div>
+                                    <div class="arch-rank arch-rank-pair">
+                                        <div class="arch-node static hub"><span class="arch-node-title">_utils.py</span><span class="arch-node-body">Fernet · *_runtime() · model_ls · streams_dir</span></div>
+                                        <div class="arch-node static"><span class="arch-node-title">CustomException</span><span class="arch-node-body">traceback file/line wrapping</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="hw arch-footnote">* 6.7GB TSV → Postgres. ~6–8M rows. ~1–2 min on Ryzen 7 5800H, 16GB, no GPU. Memory stayed contained.</p>
+                        </div>
+                        <div class="pnum">— p.04 —</div>
+                    </div>
+                </div>
+
+                <!-- p.05 — § 04 Technical Core -->
+                <div id="sec-04" style="position: relative;">
+                    <div class="page grid-page" style="transform: rotate(-0.1deg);">
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 04 — Technical Core</p>
+                        <h2 class="hw" style="font-size: 26px; color: var(--ink); margin-bottom: 18px;">What runs under the hood</h2>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px;">
+                            <div class="logline">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Application</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.6;">Python 3.12 · Flask · Flask-SocketIO · Flask-Session · Jinja + HTMX + vanilla JS. Blueprints: <code class="mono">interface</code>, <code class="mono">connections</code>, <code class="mono">workspace</code>.</p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Sessions &amp; Security</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.6;">Redis/KeyDB-backed signed sessions. DB credentials Fernet-encrypted before storage. No user auth yet — session cookie identifies browser only.</p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Inference</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.6;">LangChain · <code class="mono">InferenceEngine</code> singleton from <code class="mono">settings.json</code>. Providers: Ollama, LM Studio, OpenAI, Anthropic, Gemini. ~20-turn chat history.</p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Data plane</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.6;">DuckDB · Apache Arrow · PyArrow · Parquet · pandas · numpy · ADBC (PostgreSQL preview). <code class="mono">BaseSource</code> ABC + <code class="mono">REGISTRY</code> pattern.</p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Connectors (registered)</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.6;">postgresql · mysql · mssql · sqlite · mongodb · bigquery · snowflake · redshift · clickhouse · databricks · REST/GraphQL APIs · CSV/Excel/JSON/Parquet files. Postgres is the wired reference; others vary in polish.</p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Compute &amp; Infra</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.6;">jupyter-client · Docker (rootless DinD) · per-kernel memory/pid limits · SSH tunnels · sshtunnel. Distribution: <code class="mono">anshsharma2903/spore</code> on Docker Hub.</p>
+                            </div>
+                        </div>
+                        <div class="pnum">— p.05 —</div>
+                    </div>
+                </div>
+
+                <!-- p.06 — § 05 Constraints & Trade-offs -->
+                <div id="sec-05" style="position: relative;">
+                    <div class="page ruled-page" style="transform: rotate(0.12deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 05 — Constraints &amp; Trade-offs</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Hard choices, on record</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px;">These aren't afterthoughts. Each one cost something.</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;">
+                            <div class="logline">
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">LLM Context</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                    <span class="hg">Metadata, not RAG</span> — RAG is probabilistic. DB queries need to be deterministic. Pass schema structure only. Less tokens, less hallucination. RAG planned for DB documentation vectors, not query generation.
+                                </p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Scope vs Hex</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                    <span class="hg">Schema-level only</span> — HR sees HR, finance sees finance. Hex does collaborative analytics beautifully; Spore does constrained local query + notebook. Cross-schema joins → pgAdmin. Not competing on notebooks — competing on <span class="hy">where data lives</span>.
+                                </p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Execution gating</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                    <span class="hy">LLM never executes. Ever.</span> DDL/DML gated behind explicit human action. A company lost production to an auto-executed DROP. Human sees query, edits, runs. XML-tagged output chosen over JSON-in-stream because regex on tokens is more reliable than parsing partial JSON.
+                                </p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Reactive notebook</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                    Deliberately <span class="hg">not reactive</span> like Observable or Hex cells. Reactive flows re-run downstream on every edit — fine for small data, catastrophic when a cell triggers a 6M-row re-fetch. Explicit run button. Boring. Correct.
+                                </p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Preview vs Materialize</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                    Preview: bounded SSE stream (500 rows default). Materialize: full query → Parquet on disk. Browser never holds what it doesn't need. Trade-off: two code paths to maintain.
+                                </p>
+                            </div>
+                            <div class="logline">
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">LLM Source</p>
+                                <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                    Ollama — local first. Cloud optional. Userbase <span class="rx" title="cannot expose data to cloud inference endpoints">cannot send prompts to third-party APIs</span>. Nothing flashy. Functional.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="pnum">— p.06 —</div>
+                    </div>
+                </div>
+
+                <!-- p.07 — § 06 Post-Mortem & Regrets -->
+                <div id="sec-06" style="position: relative;">
+                    <div class="page plain-page" style="transform: rotate(-0.08deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 06 — Post-Mortem &amp; Regrets</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">What I'd do differently</h2>
+                            <p class="hw" style="font-size: 13px; color: var(--red); transform: rotate(-1deg); margin-top: 6px;">* honesty section. recruiters allegedly like this.</p>
+                        </div>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Sub-optimal data materialization</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                Every materialize is a full re-query + full re-write. No incremental append, no CDC, no "refresh changed rows only."
+                                The two-copy model (source-of-truth Parquet + working copy) trades disk for safety — but disk adds up on large relations.
+                                Should have designed incremental ingest earlier. Didn't. Shipped full re-materialize and moved on.
+                            </p>
+                        </div>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">No auth, session-scoped everything</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                Fast MVP: connections and relations live in Redis-backed Flask sessions. Works for single-user local deploys.
+                                Multi-user production needs persistent storage + login. <code class="mono">SQLALCHEMY_URI</code> is reserved in settings but not wired. Technical debt I'm aware of.
+                            </p>
+                        </div>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Connector coverage gap</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                UI advertises vendors before backend is battle-tested. REGISTRY gates runtime but creates expectation mismatch.
+                                Should have shipped fewer connectors, tested harder on each. Instead: broad registry, uneven polish.
+                            </p>
+                        </div>
+                        <div class="regret-item" style="margin-bottom: 0;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Legacy modules still in tree</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                <code class="mono">endpoints.py</code>, <code class="mono">query_executor.py</code>, <code class="mono">frontend/web_page/</code> — unregistered or unused.
+                                Carried along "just in case." Adds confusion for contributors. Should delete or archive explicitly.
+                            </p>
+                        </div>
+                        <div class="pnum">— p.07 —</div>
+                    </div>
+                </div>
+
+                <!-- p.08 — § 07 Field Logs -->
+                <div id="sec-07" style="position: relative;">
+                    <div class="page ruled-page" style="transform: rotate(0.15deg);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+                            <div>
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 07 — Field Logs</p>
+                                <h2 class="hw" style="font-size: 26px; color: var(--ink);">Selected entries. Many exist between these.</h2>
+                            </div>
+                            <p class="hw" style="font-size: 12px; color: var(--red); transform: rotate(-2deg); align-self: flex-end;">
+                                *some are <span class="rx" title="too embarrassing">redacted</span></p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <div style="display: flex; gap: 14px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                    <div style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream);"></div>
+                                    <div style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;"></div>
+                                </div>
+                                <div style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                        <span class="mono" style="font-size: 10px; font-weight: 700; color: var(--red);">[SPORE_LOG_01]</span>
+                                        <span class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase;">Origin</span>
+                                    </div>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                        Started as NL→SQL. Let non-technical people query databases without writing SQL.
+                                        Then realised — if they can't write SQL, they probably can't verify what the LLM wrote either.
+                                        Added review step. Then needed to show results. Then handle large results.
+                                        Then connect to different DBs. Then notebook. Then file importer.
+                                        At some point it wasn't a NL→SQL tool anymore.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 14px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                    <div style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream);"></div>
+                                    <div style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;"></div>
+                                </div>
+                                <div style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                        <span class="mono" style="font-size: 10px; font-weight: 700; color: var(--red);">[SPORE_LOG_03]</span>
+                                        <span class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase;">The Reddit .json Hack</span>
+                                    </div>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                        Academic data-collection project: needed Hinglish text from Reddit. Official API rate limits and access walls.
+                                        Workaround: pull archived <code class="mono">.json</code> endpoints from public submission URLs, parse nested comment trees manually.
+                                        Same instinct later applied to Spore — when the obvious path is blocked, find the bounded, memory-safe alternative. Not elegant. Worked.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 14px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                    <div style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream);"></div>
+                                    <div style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;"></div>
+                                </div>
+                                <div style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                        <span class="mono" style="font-size: 10px; font-weight: 700; color: var(--red);">[SPORE_LOG_05]</span>
+                                        <span class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase;">The Memory Problem</span>
+                                    </div>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                        Tried to load full query results into memory. A few million rows on a machine running Docker + LLM + Flask is not ideal.
+                                        Switched to DuckDB streaming chunks into an Apache Arrow buffer — hard memory cap.
+                                        Frontend paginates. Browser never renders what it doesn't need.
+                                        After this: uploaded the 6.7GB TSV. Worked. Memory stayed in bounds.
+                                    </p>
+                                    <div class="mono" style="font-size: 10px; background: rgba(240,236,228,0.8); border: 1px solid rgba(74,63,53,0.2); padding: 7px 10px; margin-top: 8px; color: #5d544b;">
+                                        VALIDATION → 6.7GB TSV → Postgres. ~6–8M rows. 1–2 min. Ryzen 7 5800H, 16GB, no GPU. Memory contained.
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 14px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                    <div style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream);"></div>
+                                    <div style="width: 1px; background: rgba(74,63,53,0.2); flex: 1; margin-top: 3px;"></div>
+                                </div>
+                                <div style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                        <span class="mono" style="font-size: 10px; font-weight: 700; color: var(--red);">[SPORE_LOG_08]</span>
+                                        <span class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase;">Kernel — Mistake, then Fix</span>
+                                    </div>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                        First: use user's system Jupyter kernel. Avoids redundant installs. Seemed smart.
+                                        Problem: system kernel touches the host machine. Any RCE path reaches everything.
+                                    </p>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-wrap: wrap;">
+                                        <div class="dn x">System kernel</div>
+                                        <span class="hw" style="color: var(--red);">→ exposed →</span>
+                                        <div class="dn ok">DinD sandbox</div>
+                                    </div>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                        Fix: isolated Docker container via rootless DinD. Volume access only: parquet files + installed libs.
+                                        No shared network with Flask or Redis. Python version via <code class="mono">KERNEL_IMAGE</code> env var — not a GUI option.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 14px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0; margin-top: 4px;">
+                                    <div style="width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream);"></div>
+                                </div>
+                                <div style="flex: 1; border: 1px solid rgba(74,63,53,0.18); padding: 12px 16px; background: rgba(255,255,255,0.3);">
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;">
+                                        <span class="mono" style="font-size: 10px; font-weight: 700; color: var(--red);">[SPORE_LOG_11]</span>
+                                        <span class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase;">Parquet + Source-of-Truth Model</span>
+                                    </div>
+                                    <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                        When user works on data in the notebook — streams from DuckDB → Arrow → single Parquet file in Docker volume.
+                                        Two copies: source of truth + working copy. Mess up the working copy, revert. No re-querying DB.
+                                        Iterators rejected early — they exhaust on one pass, changes lost unless everything loads into memory.
+                                        Trade storage for safety.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pnum">— p.08 —</div>
+                    </div>
+                </div>
+
+                <!-- p.09 — § 08 Forward Considerations -->
+                <div id="sec-08" style="position: relative;">
+                    <div class="page plain-page" style="transform: rotate(0.05deg);">
+                        <div style="margin-bottom: 18px;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 08 — Forward Considerations</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Subject's Watch List</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px;">Not promises. Directions I'm watching.</p>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Community Vector Hub</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">
+                                Shareable RAG over <span class="hg">database documentation vectors</span> — not over queries or row data.
+                                Org uploads schema docs, column descriptions, business glossary. Others in the community benefit from better LLM context without exposing their actual data.
+                                RAG for metadata enrichment, not query generation. Still probabilistic — still human-in-the-loop on execution.
+                            </p>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Multi-database queries</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">One natural-language prompt spanning multiple saved connections. Federation is hard; schema-level scoping makes it slightly less impossible.</p>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Auth + persistent storage</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">User login, saved connections beyond session lifetime, chat history. <code class="mono">SQLALCHEMY_URI</code> reserved for this. Needed before any real multi-user deploy.</p>
+                        </div>
+                        <div class="watch-item">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Settings UI + richer viz</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">Replace manual <code class="mono">settings.json</code> edits with in-app LLM provider picker. Smarter chart-type selection from result shape. Optional direct SQL mode without LLM.</p>
+                        </div>
+                        <div class="watch-item" style="margin-bottom: 0;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">CI + connector hardening</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.7;">Pytest suite for connectors and routes. Fewer advertised vendors, more tested ones. Stop carrying legacy <code class="mono">endpoints.py</code> in the tree.</p>
+                        </div>
+                        <div class="pnum">— p.09 —</div>
+                    </div>
+                </div>
+
+                <!-- p.10 — § 09 Visual Intel & Access -->
+                <div id="sec-09" style="position: relative;">
+                    <div class="page plain-page" style="transform: rotate(0.1deg);">
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 09 — Visual Intel &amp; Access Protocols</p>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+                            <h2 class="hw" style="font-size: 24px; color: var(--ink);">Prototype snapshots &amp; verify the code yourself</h2>
+                            <p class="hw" style="font-size: 12px; color: var(--red); transform: rotate(-2deg);">*will add a video once I survive v1</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+                            <div class="proto">
+                                <img src="https://raw.githubusercontent.com/ansh2903/spore/main/docs/assets/spore%20main.png" alt="Spore workspace" loading="lazy" />
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.5);">Workspace</p>
+                            </div>
+                            <div class="proto">
+                                <img src="https://raw.githubusercontent.com/ansh2903/spore/main/docs/assets/spore%20data.png" alt="Spore data materialization" loading="lazy" />
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.5);">Data Materialization</p>
+                            </div>
+                            <div class="proto">
+                                <img src="https://raw.githubusercontent.com/ansh2903/spore/main/docs/assets/spore%20notebook.png" alt="Spore notebook" loading="lazy" />
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.5);">Notebook</p>
+                            </div>
+                            <div class="proto">
+                                <img src="https://raw.githubusercontent.com/ansh2903/spore/main/docs/assets/spore%20dash.png" alt="Spore dashboard" loading="lazy" />
+                                <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(74,63,53,0.5);">Dashboard</p>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px dashed rgba(74,63,53,0.2); padding-top: 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <a href="https://github.com/ansh2903/spore" target="_blank" rel="noopener noreferrer"
+                                style="border: 2px solid var(--ink); padding: 8px 18px; font-family: 'Space Grotesk', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 6px; background: rgba(240,236,228,0.7);">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">code</span>GitHub — Repository
+                            </a>
+                            <a href="https://hub.docker.com/r/anshsharma2903/spore" target="_blank" rel="noopener noreferrer"
+                                style="border: 2px solid var(--ink); padding: 8px 18px; font-family: 'Space Grotesk', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 6px; background: rgba(240,236,228,0.7);">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">inventory_2</span>Docker Hub — Image
+                            </a>
+                        </div>
+                        <p class="hw" style="font-size: 12px; color: var(--red); margin-left: 4px; transform: rotate(-0.5deg); display: inline-block;">
+                            * 200 stars and a job offer. that's the entire v1 success criteria. lol</p>
+                        <div style="margin-top: 28px; padding-top: 14px; border-top: 2px double rgba(74,63,53,0.25); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                            <p class="hw" style="font-size: 13px; color: #9a8f85;">— End of EXP_01 records —</p>
+                            <div class="pnum" style="margin-top: 0;">— p.10 —</div>
+                        </div>
+                        <p class="hw" style="position: absolute; right: 14px; bottom: 10px; font-size: 10px; color: rgba(74,63,53,0.18);">
+                            Property of Spore Lab · Form #441-B</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var el = document.getElementById('log-date');
+            if (el) {
+                var d = new Date();
+                var dd = String(d.getDate()).padStart(2, '0');
+                var mm = String(d.getMonth() + 1).padStart(2, '0');
+                el.textContent = 'Log Date: ' + dd + '.' + mm + '.' + d.getFullYear() + ' // EXP_01 Laboratory Records';
+            }
+
+            var explorer = document.getElementById('arch-explorer');
+            var sec03 = document.getElementById('sec-03');
+
+            function showView(viewId) {
+                if (!explorer) return;
+                var views = explorer.querySelectorAll('.arch-view');
+                var target = document.getElementById(viewId);
+                if (!target) return;
+
+                views.forEach(function (view) {
+                    var active = view === target;
+                    view.classList.toggle('active', active);
+                    view.toggleAttribute('hidden', !active);
+                    view.setAttribute('aria-hidden', active ? 'false' : 'true');
+                });
+
+                var heading = target.querySelector('.arch-view-title');
+                if (heading) {
+                    heading.focus({ preventScroll: true });
+                }
+
+                if (sec03) {
+                    sec03.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+            if (explorer) {
+                explorer.querySelectorAll('[data-view]').forEach(function (el) {
+                    el.addEventListener('click', function () {
+                        var viewId = el.getAttribute('data-view');
+                        if (viewId) showView(viewId);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
