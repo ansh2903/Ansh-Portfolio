@@ -1,0 +1,284 @@
+/* Portfolio — mobile layout (≤767px) */
+
+@media (max-width: 767px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        padding: 0.625rem !important;
+        padding-bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* Typography */
+    .font-h1,
+    .text-h1 {
+        font-size: clamp(1.625rem, 7vw, 2.125rem) !important;
+        line-height: 1.15 !important;
+    }
+
+    .font-h3,
+    .text-h3 {
+        font-size: clamp(1.05rem, 4.2vw, 1.3rem) !important;
+    }
+
+    .font-annotation,
+    .text-annotation {
+        font-size: 0.95rem !important;
+        line-height: 1.45 !important;
+    }
+
+    /* Index dossier */
+    .portfolio-main {
+        padding-left: 0.875rem !important;
+        padding-right: 0.875rem !important;
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .dossier-header {
+        padding: 1rem !important;
+        padding-top: 3.25rem !important;
+        margin-bottom: 2.5rem !important;
+    }
+
+    .dossier-title-row {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        gap: 0.75rem !important;
+    }
+
+    .dossier-meta {
+        text-align: right !important;
+        align-items: flex-end !important;
+        margin-left: auto;
+    }
+
+    .approved-stamp {
+        display: block !important;
+        top: 0.5rem !important;
+        right: 0.5rem !important;
+        padding: 0.35rem 0.55rem !important;
+        transform: rotate(12deg) !important;
+        border-width: 2px !important;
+    }
+
+    .approved-stamp .font-h3,
+    .approved-stamp .text-h3 {
+        font-size: 0.7rem !important;
+        margin-bottom: 0.15rem !important;
+        padding-bottom: 0.15rem !important;
+    }
+
+    .approved-stamp .font-code {
+        font-size: 7px !important;
+    }
+
+    .status-spacer {
+        display: none !important;
+    }
+
+    .whereabouts-note {
+        position: static !important;
+        transform: rotate(-1deg) !important;
+        margin: 0.75rem 0 0 !important;
+        width: 100% !important;
+        justify-content: stretch !important;
+    }
+
+    .whereabouts-note > div:last-child {
+        min-width: 0 !important;
+        width: 100% !important;
+        padding: 1rem !important;
+    }
+
+    .whereabouts-note .whereabouts-link-item {
+        position: static !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin-top: 0.5rem !important;
+    }
+
+    .whereabouts-note .whereabouts-link-item a {
+        left: 0 !important;
+        bottom: auto !important;
+    }
+
+    .project-aside-note {
+        position: static !important;
+        transform: none !important;
+        margin-top: 0.75rem !important;
+        max-width: none !important;
+        text-align: left !important;
+    }
+
+    .footer-stamp {
+        position: static !important;
+        text-align: center !important;
+        margin-top: 1rem !important;
+        padding: 0 !important;
+    }
+
+    /* Exp field-report pages */
+    .folder-inner {
+        padding: 8px 6px 14px !important;
+    }
+
+    .folder-tab {
+        height: 24px;
+        padding: 0 8px;
+        gap: 6px;
+        overflow: hidden;
+    }
+
+    .folder-tab-label {
+        font-size: 7px;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+
+    .ruled-page {
+        padding: 16px 12px 20px 22px !important;
+    }
+
+    .ruled-page::before {
+        left: 14px !important;
+    }
+
+    .ruled-page::after {
+        left: 16px !important;
+    }
+
+    .grid-page,
+    .plain-page {
+        padding: 14px 12px !important;
+    }
+
+    .plain-page h1,
+    .ruled-page h2.hw {
+        font-size: 1.45rem !important;
+    }
+
+    .page .sticky {
+        position: static !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        margin: 0 0 10px !important;
+        font-size: 11px !important;
+    }
+
+    .page-deco {
+        display: none !important;
+    }
+
+    .tape {
+        font-size: 11px !important;
+        max-width: calc(100% - 1rem);
+        padding: 2px 10px !important;
+    }
+
+    .badge-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .badge-row > div {
+        flex: 1 1 calc(50% - 6px) !important;
+        min-width: 0 !important;
+    }
+
+    .metric-table {
+        font-size: 9px;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .metric-table th,
+    .metric-table td {
+        padding: 4px 6px;
+    }
+
+    .example-block {
+        font-size: 10px;
+    }
+
+    .dossier-header li.flex {
+        flex-wrap: wrap;
+        gap: 0.2rem;
+    }
+
+    .dossier-header li.flex span:last-child {
+        text-align: right;
+    }
+}
+
+/* Bottom navigation — dossier file-tab strip */
+.portfolio-nav-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    display: none;
+    background-color: #fcf9f2;
+    background-image:
+        linear-gradient(#e5e2db 1px, transparent 1px),
+        linear-gradient(90deg, #e5e2db 1px, transparent 1px);
+    background-size: 22px 22px;
+    border-top: 2px dashed #1c1c18;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.03);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.portfolio-nav-mobile a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.1rem;
+    padding: 0.45rem 0.25rem;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #4d453f;
+    border-right: 1px dashed rgba(28, 28, 24, 0.35);
+    text-align: center;
+    line-height: 1.2;
+    background: #e5e2db;
+}
+
+.portfolio-nav-mobile a:last-child {
+    border-right: none;
+}
+
+.portfolio-nav-mobile a .nav-tab-id {
+    display: block;
+}
+
+.portfolio-nav-mobile a.is-active {
+    color: #1c1c18;
+    background: #fcf9f2;
+    box-shadow: inset 0 2px 0 #1c1c18;
+    border-bottom: none;
+}
+
+.portfolio-nav-mobile a:active:not(.is-active) {
+    background: #dcd9d2;
+}
+
+@media (max-width: 767px) {
+    .portfolio-nav-mobile {
+        display: flex;
+    }
+
+    .portfolio-nav-desktop {
+        display: none !important;
+    }
+}
