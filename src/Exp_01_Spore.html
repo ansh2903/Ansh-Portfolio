@@ -672,9 +672,10 @@
             .arch-view-title { font-size: 16px; }
         }
     </style>
+    <link href="mobile.css" rel="stylesheet" />
 </head>
 
-<body class="min-h-screen p-8 md:p-14 flex justify-center items-start">
+<body class="min-h-screen p-3 md:p-14 flex justify-center items-start">
     <div class="folder-back relative w-full max-w-[1100px]">
         <div class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
             <div class="folder-tab"></div>
@@ -692,7 +693,7 @@
         </div>
 
         <div class="folder-inner">
-            <nav class="absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
+            <nav class="portfolio-nav-desktop absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
                 <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
                     style="background:#e5e2db; border-color:#1c1c18;" href="index.html" title="Subject Info">
                     <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
@@ -705,7 +706,13 @@
                         style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_01 [Spore]</span>
                 </a>
                 <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
-                    style="background:#e5e2db; border-color:#1c1c18;" href="pdf/Ansh Sharma Resume 6.pdf" title="Resume"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="Exp_02_LID_Fine-tuning.html"
+                    title="Experiments">
+                    <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_02 [LID]</span>
+                </a>
+                <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="pdf/Ansh Sharma Resume 7.pdf" title="Resume"
                     target="_blank">
                     <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
                         style="writing-mode: vertical-rl; transform: rotate(180deg);">Resume</span>
@@ -836,7 +843,7 @@
 
                 <!-- p.04 — § 03 System Architecture -->
                 <div id="sec-03" style="position: relative;">
-                    <div style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
+                    <div class="page-deco" style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
                         <div class="clip"></div>
                     </div>
                     <div class="page ruled-page" style="transform: rotate(-0.25deg);">
@@ -1472,6 +1479,12 @@
             }
         });
     </script>
+    <nav class="portfolio-nav-mobile" aria-label="Site navigation">
+        <a href="index.html"><span class="nav-tab-id">Subject</span></a>
+        <a class="is-active" href="Exp_01_Spore.html"><span class="nav-tab-id">Exp_01</span></a>
+        <a href="Exp_02_LID_Fine-tuning.html"><span class="nav-tab-id">Exp_02</span></a>
+        <a href="pdf/Ansh Sharma Resume 7.pdf" target="_blank" rel="noopener"><span class="nav-tab-id">Resume</span></a>
+    </nav>
 </body>
 
 </html>
