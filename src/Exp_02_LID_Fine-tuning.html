@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>EXP_02 — Hinglish LID // Fine-tuning Records</title>
+    <title>EXP_02 — XLM-V Tuktuk HIEN LID // Fine-tuning Records</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
@@ -254,10 +254,56 @@
             padding-left: 14px;
             margin-bottom: 14px;
         }
+
+        .regret-item {
+            border: 1px solid rgba(186, 26, 26, 0.25);
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.28);
+            margin-bottom: 12px;
+        }
+
+        .metric-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+
+        .metric-table th,
+        .metric-table td {
+            border: 1px solid rgba(74, 63, 53, 0.22);
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .metric-table th {
+            background: rgba(240, 236, 228, 0.8);
+            text-transform: uppercase;
+            font-size: 8px;
+            letter-spacing: 0.08em;
+            color: #7a6f65;
+        }
+
+        .metric-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .example-block {
+            border: 1px dashed rgba(74, 63, 53, 0.28);
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.35);
+            font-family: 'Space Grotesk', monospace;
+            font-size: 11px;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
     </style>
+    <link href="mobile.css" rel="stylesheet" />
 </head>
 
-<body class="min-h-screen p-8 md:p-14 flex justify-center items-start">
+<body class="min-h-screen p-3 md:p-14 flex justify-center items-start">
     <div class="folder-back relative w-full max-w-[1100px]">
         <div class="absolute inset-0 folder-back shadow-md rotate-[-0.2deg] translate-y-2 rounded-sm border border-black/5 -z-10">
             <div class="folder-tab"></div>
@@ -275,7 +321,7 @@
         </div>
 
         <div class="folder-inner">
-            <nav class="absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
+            <nav class="portfolio-nav-desktop absolute right-0 top-24 md:top-32 flex flex-col items-end space-y-3 z-40">
                 <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
                     style="background:#e5e2db; border-color:#1c1c18;" href="index.html" title="Subject Info">
                     <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
@@ -293,7 +339,7 @@
                         style="writing-mode: vertical-rl; transform: rotate(180deg);">Exp_02 [LID]</span>
                 </a>
                 <a class="flex flex-col items-center py-4 px-2 md:py-6 md:px-3 border-2 border-r-0 rounded-l-lg shadow-[-2px_2px_0_0_#1c1c18] relative z-0 text-[#4d453f] hover:text-[#1c1c18] translate-x-1 transition-transform"
-                    style="background:#e5e2db; border-color:#1c1c18;" href="pdf/Ansh Sharma Resume 6.pdf" title="Resume"
+                    style="background:#e5e2db; border-color:#1c1c18;" href="pdf/Ansh Sharma Resume 7.pdf" title="Resume"
                     target="_blank">
                     <span class="mono text-xs md:text-sm font-bold uppercase tracking-widest"
                         style="writing-mode: vertical-rl; transform: rotate(180deg);">Resume</span>
@@ -314,47 +360,52 @@
                     <div class="page plain-page" style="transform: rotate(0.2deg);">
                         <div style="position: relative; margin-bottom: 22px;">
                             <div class="tape" style="position: absolute; top: -14px; left: 24px; transform: rotate(-0.8deg); z-index: 2;">
-                                hinglish LID — fine-tune a small LLM</div>
+                                token-level hinglish LID — end to end</div>
                             <div style="border: 1px solid rgba(74,63,53,0.18); padding: 18px 22px 14px; background: rgba(255,255,255,0.35); margin-top: 10px;">
                                 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
                                     <div>
                                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
                                             <span class="material-symbols-outlined" style="color: var(--green); font-size: 2rem;">translate</span>
-                                            <h1 style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink);">Hinglish LID</h1>
+                                            <h1 style="font-size: 38px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; color: var(--ink);">XLM-V Tuktuk<br />HIEN LID</h1>
                                         </div>
                                         <p id="log-date" class="mono" style="font-size: 9px; color: #9a8f85; text-transform: uppercase; letter-spacing: 0.1em; margin-left: 42px;">
                                             Log Date: --.--.---- // EXP_02</p>
                                     </div>
                                     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 4px;">
-                                        <span class="stamp" style="color: var(--red); transform: rotate(-3deg);">Under Dev</span>
-                                        <span class="mono" style="font-size: 9px; color: #7a6f65;">In Progress</span>
+                                        <span class="stamp" style="color: var(--green); transform: rotate(-3deg);">Complete · v1</span>
+                                        <span class="mono" style="font-size: 9px; color: #7a6f65;">93% weighted F1</span>
                                     </div>
                                 </div>
                                 <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 8px;">§ 01 — Executive Summary</p>
                                 <p class="hw" style="font-size: 15px; line-height: 1.75; color: var(--ink);">
-                                    Fine-tune a small LLM for <span class="hg">code-mixed Hinglish language identification</span> — a real problem statement backed by a corpus I collected for an academic research project (currently under review).
-                                    The dataset was the heavy lift and was completed months ago; preprocessing and training work is ongoing.
-                                    Data prep runs on <span class="hy">my own platform (Spore)</span> — ingest, profile, filter, export.
-                                    <br /><span style="color: #7a6f65;">Mid-level project scope: solid dataset engineering + a credible fine-tuning + eval story.</span>
+                                    Solo end-to-end project: <span class="hg">token-level language identification</span> on code-mixed Hinglish social media text.
+                                    I collected ~70% of a ~30k-comment corpus across six platforms for an academic research project (paper under review).
+                                    Cleaned it, pseudo-labeled 456k+ tokens via a 3-model voting ensemble, fine-tuned
+                                    <code class="mono">facebook/xlm-v-base</code> into <span class="hy">XLM-V-Tuktuk-HIEN-LID</span> — no local GPU, so labeling ran on CPU inside Spore's notebook environment and training happened on Kaggle.
+                                    <br /><span style="color: #7a6f65;">Dataset engineering was the heavy lift. The model is the proof it worked.</span>
                                 </p>
                             </div>
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                        <div class="badge-row" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
                             <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
                                 <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Task</p>
-                                <p class="hw" style="font-size: 13px;">Hinglish LID</p>
+                                <p class="hw" style="font-size: 13px;">Token-level Hinglish LID</p>
                             </div>
                             <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
                                 <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Data</p>
-                                <p class="hw" style="font-size: 13px;">Self-collected · multi-platform</p>
+                                <p class="hw" style="font-size: 13px;">~28k rows · self-collected</p>
                             </div>
                             <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
-                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Prep tool</p>
-                                <p class="hw" style="font-size: 13px;">Spore platform</p>
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Prep env</p>
+                                <p class="hw" style="font-size: 13px;">Spore notebook</p>
                             </div>
                             <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
-                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Candidate model</p>
-                                <p class="hw" style="font-size: 13px;">Qwen3.5 4B (TBD)</p>
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Model</p>
+                                <p class="hw" style="font-size: 13px;">XLM-V → Tuktuk</p>
+                            </div>
+                            <div style="border: 1px solid rgba(74,63,53,0.28); padding: 5px 14px; background: rgba(240,236,228,0.7);">
+                                <p class="mono" style="font-size: 8px; text-transform: uppercase; color: #7a6f65; margin-bottom: 1px;">Hardware</p>
+                                <p class="hw" style="font-size: 13px;">Ryzen 7 5800H · 16GB · no GPU</p>
                             </div>
                         </div>
                         <div class="pnum">— p.01 —</div>
@@ -367,7 +418,7 @@
                         <div style="margin-bottom: 18px;">
                             <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">Field Report Index</p>
                             <h2 class="hw" style="font-size: 26px; color: var(--ink);">Table of contents</h2>
-                            <p class="hw" style="font-size: 13px; color: #7a6f65; margin-top: 6px;">Eight sections. Scaffold in place — fill in as work progresses.</p>
+                            <p class="hw" style="font-size: 13px; color: #7a6f65; margin-top: 6px;">Eight sections. Dataset duct tape → pseudo-labels → fine-tune → eval.</p>
                         </div>
                         <nav class="toc-list" aria-label="Table of contents">
                             <a class="toc-item" href="#sec-01"><span class="toc-num">§ 01</span><span class="toc-title">Executive Summary</span><span class="toc-dots"></span><span class="toc-page">p.01</span></a>
@@ -375,9 +426,9 @@
                             <a class="toc-item" href="#sec-03"><span class="toc-num">§ 03</span><span class="toc-title">Dataset Provenance &amp; Labeling</span><span class="toc-dots"></span><span class="toc-page">p.04</span></a>
                             <a class="toc-item" href="#sec-04"><span class="toc-num">§ 04</span><span class="toc-title">Preprocessing Pipeline</span><span class="toc-dots"></span><span class="toc-page">p.05</span></a>
                             <a class="toc-item" href="#sec-05"><span class="toc-num">§ 05</span><span class="toc-title">Data Quality &amp; QA</span><span class="toc-dots"></span><span class="toc-page">p.06</span></a>
-                            <a class="toc-item" href="#sec-06"><span class="toc-num">§ 06</span><span class="toc-title">Model &amp; Fine-tuning Plan</span><span class="toc-dots"></span><span class="toc-page">p.07</span></a>
-                            <a class="toc-item" href="#sec-07"><span class="toc-num">§ 07</span><span class="toc-title">Evaluation Protocol</span><span class="toc-dots"></span><span class="toc-page">p.08</span></a>
-                            <a class="toc-item" href="#sec-08"><span class="toc-num">§ 08</span><span class="toc-title">Forward Considerations</span><span class="toc-dots"></span><span class="toc-page">p.09</span></a>
+                            <a class="toc-item" href="#sec-06"><span class="toc-num">§ 06</span><span class="toc-title">Model &amp; Fine-tuning</span><span class="toc-dots"></span><span class="toc-page">p.07</span></a>
+                            <a class="toc-item" href="#sec-07"><span class="toc-num">§ 07</span><span class="toc-title">Evaluation &amp; Results</span><span class="toc-dots"></span><span class="toc-page">p.08</span></a>
+                            <a class="toc-item" href="#sec-08"><span class="toc-num">§ 08</span><span class="toc-title">Constraints, Regrets &amp; Next</span><span class="toc-dots"></span><span class="toc-page">p.09</span></a>
                         </nav>
                         <div class="pnum">— p.02 —</div>
                     </div>
@@ -388,20 +439,39 @@
                     <div class="page ruled-page" style="transform: rotate(0.1deg);">
                         <div style="margin-bottom: 18px;">
                             <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 02 — Problem Statement</p>
-                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Why Hinglish LID is hard</h2>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Why token-level Hinglish LID is hard</h2>
                             <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.7;">
-                                Language identification on <span class="hg">code-mixed Hinglish</span> text — Hindi and English (and Roman-script variants) interleaved in the same utterance.
-                                Standard LID tools assume clean monolingual input; social-media Hinglish breaks that assumption.
-                                The problem statement is fixed: classify language mix at the text level for downstream NLP in Indian-language contexts.
+                                Not sentence-level LID — <span class="hg">token-level</span> classification on code-mixed Hinglish social media text.
+                                Hindi and English (Roman script) interleaved in the same utterance. Standard LID tools assume clean monolingual input; this breaks that.
                             </p>
                         </div>
                         <div class="logline">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Research context</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Corpus collected as part of an academic data-annotation project. Paper under review — full citation and scope TBD.</p>
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Label schema (4 classes)</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                <code class="mono">EN</code> English ·
+                                <code class="mono">HI</code> Hindi / Romanized Hindi ·
+                                <code class="mono">NE</code> named entity ·
+                                <code class="mono">OT</code> other / ambiguous / code-mixed
+                            </p>
                         </div>
-                        <div class="pending-box">
-                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Formal problem definition, label taxonomy, and example utterances with expected classifications.</p>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">WordPiece pain</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                BERT-style tokenizers split Roman Hindi into subwords. Something as basic as <em>yaar</em> becomes <code class="mono">ya</code> + <code class="mono">ar</code> — which makes naive token-level alignment annoying when you're mapping model outputs back to whitespace tokens.
+                            </p>
+                        </div>
+                        <div class="example-block">
+                            <span style="color:#7a6f65;">utterance →</span> yaar I kal going karunga<br />
+                            <span style="color:#7a6f65;">labels →</span>
+                            <span style="background:rgba(73,104,0,0.15);padding:0 3px;">HI</span>
+                            <span style="background:rgba(255,228,70,0.35);padding:0 3px;">EN</span>
+                            <span style="background:rgba(255,228,70,0.35);padding:0 3px;">EN</span>
+                            <span style="background:rgba(255,228,70,0.35);padding:0 3px;">EN</span>
+                            <span style="background:rgba(73,104,0,0.15);padding:0 3px;">HI</span>
+                        </div>
+                        <div class="logline" style="margin-top: 14px;">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Research context</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Corpus collected for an academic data-annotation project (paper under review). ~70% scraped by me; remainder from supervisor-provided sources.</p>
                         </div>
                         <div class="pnum">— p.03 —</div>
                     </div>
@@ -409,36 +479,107 @@
 
                 <!-- p.04 — § 03 Dataset Provenance -->
                 <div id="sec-03" style="position: relative;">
-                    <div style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
+                    <div class="page-deco" style="position: absolute; top: -10px; right: 56px; transform: rotate(9deg); z-index: 10;">
                         <div class="clip"></div>
                     </div>
                     <div class="page ruled-page" style="transform: rotate(-0.2deg);">
                         <div class="sticky" style="position: absolute; top: 22px; right: 28px; width: 168px; transform: rotate(3.5deg); z-index: 5; font-size: 12px; line-height: 1.5;">
                             I collected this data.<br />multi-platform scrape.<br />months of work.<br />
-                            <span style="color: var(--red); font-size: 11px;">— labels TBD below</span>
+                            <span style="color: var(--green); font-size: 11px;">— ~28k rows cleaned</span>
                         </div>
                         <div style="margin-bottom: 18px;">
                             <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 03 — Dataset Provenance &amp; Labeling</p>
                             <h2 class="hw" style="font-size: 26px; color: var(--ink);">Where the data came from</h2>
                             <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
-                                Self-collected across Reddit, Twitter/X, Instagram, Facebook, YouTube, and Telegram — each platform with its own access constraints and quirks.
-                                Two source datasets exist; preprocessing will compare them for redundancy before merge.
+                                ~30k raw social media comments → ~28,333 after dedup, empty-row drops, and text cleaning.
+                                ~70% self-collected across six platforms; each has its own scraper notebook in <code class="mono">utility/</code>.
                             </p>
                         </div>
+
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px;">Collection — duct tape log</p>
+                        <p class="hw" style="font-size: 13px; line-height: 1.65; color: #5d544b; margin-bottom: 12px;">
+                            Try something → breaks → try more → eventually runs. Per platform. No paid API budget, no labeling army — just Selenium, public endpoints, and stubbornness.
+                        </p>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Reddit</p>
+                            <p class="hw" style="font-size: 13px; line-height: 1.6;">Public <code class="mono">.json</code> API — most reliable volume. Hit 429 rate limits constantly; topic searches (e.g. AQI threads) to keep signal high.</p>
+                        </div>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Twitter / X</p>
+                            <p class="hw" style="font-size: 13px; line-height: 1.6;">No paid API. <code class="mono">undetected_chromedriver</code> + <code class="mono">selenium_stealth</code>; manual scroll until JS loads replies. Breaks when X changes DOM.</p>
+                        </div>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Facebook · Instagram · YouTube</p>
+                            <p class="hw" style="font-size: 13px; line-height: 1.6;">Logged-in Chrome profiles, scroll loops, shared keyword filter. UI/driver breakage on re-run — most of these notebooks are archaeology now.</p>
+                        </div>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Telegram</p>
+                            <p class="hw" style="font-size: 13px; line-height: 1.6;">Telethon client for channel/group comments. Works until it doesn't.</p>
+                        </div>
+
+                        <table class="metric-table" style="margin-bottom: 14px;">
+                            <thead>
+                                <tr><th>Platform</th><th>Notebook (utility/)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Reddit</td><td>reddit scraper.ipynb</td></tr>
+                                <tr><td>Twitter / X</td><td>twitter scrapper.ipynb</td></tr>
+                                <tr><td>Facebook</td><td>facebook scrapper.ipynb</td></tr>
+                                <tr><td>Instagram</td><td>Instagram scrapper.ipynb</td></tr>
+                                <tr><td>YouTube</td><td>Youtube scrapper.ipynb</td></tr>
+                                <tr><td>Telegram</td><td>telegram scrapper.ipynb</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pending-box" style="min-height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <p class="mono" style="font-size: 9px; color: #9a8f85;">[ notebook embed — per-platform collection exports ]</p>
+                        </div>
+                        <div class="pnum">— p.04a —</div>
+                    </div>
+
+                    <!-- p.04 continued — labeling -->
+                    <div class="page ruled-page" style="transform: rotate(0.08deg); margin-top: 18px;">
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px;">Pseudo-labeling — 3-model voting</p>
+                        <p class="hw" style="font-size: 13px; line-height: 1.65; color: #5d544b; margin-bottom: 12px;">
+                            No 30k-row manual token annotation team. Ran three existing LID models over every row, mapped outputs to the 4-class schema, then majority-voted per token.
+                            HingBERT-LID is binary (EN/HI only) — ended up as tie-breaker, not a strong voter.
+                        </p>
+                        <table class="metric-table" style="margin-bottom: 14px;">
+                            <thead>
+                                <tr><th>Source</th><th>Model</th><th>Role</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>HingBERT-LID</td><td>Binary EN/HI · WordPiece pain · weak voter</td></tr>
+                                <tr><td>2</td><td>XLM-RoBERTa-HIEN-LID</td><td>8-class → mapped to EN/HI/NE/OT</td></tr>
+                                <tr><td>3</td><td>codeswitch-hineng-lid-lince</td><td>Dictionary pivot → LINCE-trained CodeSwitch</td></tr>
+                            </tbody>
+                        </table>
                         <div class="qa-block">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Q — How were labels generated for training?</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
-                                <span class="hy">[ to be filled ]</span> — annotation pipeline details, inter-annotator agreement, confidence-threshold approach from the research project.
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Voting rules</p>
+                            <p class="hw" style="font-size: 13px; line-height: 1.65;">
+                                3/3 agree → accept. 2/3 → accept majority. All disagree → keep row (production will see these); ties broken by HingBERT.
+                                NE takes priority where present. Forgot to save confidence scores — weighted voting deferred to v2.
                             </p>
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
-                            <span class="stamp" style="color: var(--red); transform: rotate(2deg);">Under Review</span>
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px;">Inter-annotator agreement (pseudo-labelers)</p>
+                        <table class="metric-table" style="margin-bottom: 14px;">
+                            <thead>
+                                <tr><th>Metric</th><th>Value</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Tokens evaluated</td><td>456,642</td></tr>
+                                <tr><td>HingBERT vs XLM-R κ</td><td>0.550</td></tr>
+                                <tr><td>XLM-R vs CodeSwitch κ</td><td>0.862</td></tr>
+                                <tr><td>HingBERT vs CodeSwitch κ</td><td>0.549</td></tr>
+                                <tr><td>Fleiss' κ (global)</td><td>0.650</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="logline">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Train / holdout split</p>
+                            <p class="hw" style="font-size: 13px; line-height: 1.65;">
+                                ~27,333 rows fine-tuning · 1,000-row holdout (<code class="mono">random_state=42</code>) reserved for evaluation — labels kept for scoring but excluded from training.
+                            </p>
                         </div>
-                        <div class="pending-box">
-                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Final row counts per source, per-platform breakdown, label schema, and train/val/test split sizes.</p>
-                        </div>
-                        <div class="pnum">— p.04 —</div>
+                        <div class="pnum">— p.04b —</div>
                     </div>
                 </div>
 
@@ -447,38 +588,39 @@
                     <div class="page grid-page" style="transform: rotate(-0.1deg);">
                         <div style="margin-bottom: 18px;">
                             <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 04 — Preprocessing Pipeline</p>
-                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Dataset prep proposal</h2>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Cleaning before labeling</h2>
                             <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
-                                Run on the <span class="hg">Spore platform</span> — ingest, profile, filter, export. Pipeline below is the planned sequence.
+                                Ran in <span class="hg">Spore's notebook environment</span> on CPU (Ryzen 7 5800H, 16GB, no GPU).
+                                Full pipeline in <code class="mono">Hinglish_data_preprocessing.ipynb</code>.
                             </p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 1</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Two datasets</strong> — load both corpora, compare for redundant rows across sets.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Load &amp; inspect</strong> — two source CSVs; compare overlap before merge.</p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 2</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Intra-set duplicates</strong> — check and drop duplicate rows within each dataset.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Deduplicate</strong> — drop intra-set duplicate <code class="mono">text</code> rows.</p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 3</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Empty rows</strong> — identify and drop null/blank text fields.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Empty rows</strong> — drop null/blank text fields.</p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 4</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Special characters</strong> — normalize or strip emojis, control chars, and encoding artifacts.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Text normalize</strong> — <code class="mono">clean_hinglish_text()</code>: strip URLs, emojis, control chars, repeated punctuation; lowercase.</p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 5</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Merge</strong> — combine into a single dataset if the two sets are mutually unique.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Merge</strong> — combine unique rows into single corpus (~28,333 rows).</p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 6</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Token distribution</strong> — plot row-level token counts, apply filtering thresholds as needed.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Length filter</strong> — drop rows with ≤2 or ≥144 whitespace tokens (keeps compute sane, minimal row loss).</p>
                         </div>
                         <div class="pipeline-step logline">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Step 7</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Manual QA sample</strong> — read through a small sample to sanity-check data quality before training.</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.6;"><strong>Export</strong> — JSON splits for Kaggle fine-tuning + holdout CSV.</p>
                         </div>
                         <div class="pnum">— p.05 —</div>
                     </div>
@@ -489,119 +631,172 @@
                     <div class="page ruled-page" style="transform: rotate(0.12deg);">
                         <div style="margin-bottom: 18px;">
                             <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 05 — Data Quality &amp; QA</p>
-                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Questions to answer with data</h2>
-                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px;">Open checklist — fill in numbers and charts as preprocessing completes.</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">What the corpus looks like</h2>
+                            <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px;">Numbers from post-voting label distribution on the training set.</p>
                         </div>
                         <div class="qa-block">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Label quality</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Sample ~100 records, read through manually, calculate annotation error rate. <span class="hy">[ to be filled ]</span></p>
-                        </div>
-                        <div class="qa-block">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Class distribution</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Per-label counts and imbalance ratio. <span class="hy">[ chart pending ]</span></p>
-                            <div class="pending-box" style="margin-top: 10px; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Class distribution (token counts per row)</p>
+                            <table class="metric-table">
+                                <thead>
+                                    <tr><th>Class</th><th>Typical share</th><th>Notes</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>EN</td><td>dominant</td><td>English tokens common in Roman Hinglish</td></tr>
+                                    <tr><td>HI</td><td>high</td><td>Romanized Hindi / Devanagari translit</td></tr>
+                                    <tr><td>NE</td><td>moderate</td><td>Names, places — priority in voting</td></tr>
+                                    <tr><td>OT</td><td>rare (~&lt;1%)</td><td>Ambiguous / code-mixed — hard class</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="pending-box" style="margin-top: 10px; min-height: 64px; display: flex; align-items: center; justify-content: center;">
                                 <p class="mono" style="font-size: 9px; color: #9a8f85;">[ chart pending — class distribution ]</p>
                             </div>
                         </div>
                         <div class="qa-block">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Noise cleaning</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Strip HTTP links, spam comments, and low-signal boilerplate. Duplicates and nulls handled in § 04 pipeline.</p>
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Holdout token support (1k rows · 2,429 tokens)</p>
+                            <table class="metric-table">
+                                <thead>
+                                    <tr><th>Class</th><th>Support</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>EN</td><td>1,209</td></tr>
+                                    <tr><td>HI</td><td>728</td></tr>
+                                    <tr><td>OT</td><td>23</td></tr>
+                                    <tr><td>NE</td><td>469</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="qa-block">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Row token-size distribution</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Histogram of tokens per row after filtering. <span class="hy">[ chart pending ]</span></p>
-                            <div class="pending-box" style="margin-top: 10px; min-height: 80px; display: flex; align-items: center; justify-content: center;">
-                                <p class="mono" style="font-size: 9px; color: #9a8f85;">[ chart pending — token distribution ]</p>
-                            </div>
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; color: var(--red); margin-bottom: 6px;">Noise handled</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">HTTP links stripped, spam/boilerplate reduced via keyword filters at scrape time, duplicates and nulls removed in §04.</p>
                         </div>
                         <div class="pnum">— p.06 —</div>
                     </div>
                 </div>
 
-                <!-- p.07 — § 06 Model & Fine-tuning Plan -->
+                <!-- p.07 — § 06 Model & Fine-tuning -->
                 <div id="sec-06" style="position: relative;">
                     <div class="page grid-page" style="transform: rotate(-0.08deg);">
                         <div style="margin-bottom: 18px;">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 06 — Model &amp; Fine-tuning Plan</p>
-                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">What to train and how</h2>
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 06 — Model &amp; Fine-tuning</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Qwen failed · XLM-V won</h2>
                             <p class="hw" style="font-size: 14px; color: #5d544b; margin-top: 8px; line-height: 1.65;">
-                                Mid-level project — dataset engineering is the main story; fine-tuning and eval round it out.
+                                Started with Qwen3.5-0.8B — overfit badly on pseudo-labels. Pivoted to a simpler encoder head on <code class="mono">facebook/xlm-v-base</code>.
                             </p>
                         </div>
                         <div class="logline" style="margin-bottom: 16px;">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Candidate base model</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;"><code class="mono">Qwen3.5 4B</code> — likely starting point; will compare against alternatives before locking in.</p>
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Final model</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                <span class="hy">XLM-V-Tuktuk-HIEN-LID</span> — token classification head, 4 labels (HI=0, EN=1, OT=2, NE=3).
+                                Private HF repo: <code class="mono">speedy383079/XLM-V-Tuktuk-HIEN-LID</code>.
+                            </p>
                         </div>
                         <div class="logline" style="margin-bottom: 16px;">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Quantization</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Compare quantization methods supported by the chosen model family (QLoRA, GPTQ, AWQ, etc.). <span class="hy">[ to be filled ]</span></p>
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Training</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">
+                                Kaggle GPU (no local CUDA — lost GPU in a house fire).
+                                Hugging Face <code class="mono">Trainer</code> + token-classification pipeline; train/val JSON from pseudo-labeled corpus.
+                            </p>
                         </div>
-                        <div class="pending-box">
-                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Final model choice, training config (epochs, LR, batch size, LoRA rank), hardware used, and training loss curves.</p>
-                        </div>
+                        <table class="metric-table">
+                            <thead>
+                                <tr><th>Setting</th><th>Value</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Base</td><td>facebook/xlm-v-base</td></tr>
+                                <tr><td>Task</td><td>Token classification</td></tr>
+                                <tr><td>Train rows</td><td>~27,333</td></tr>
+                                <tr><td>Val / holdout</td><td>1,000 rows</td></tr>
+                                <tr><td>Prep hardware</td><td>CPU · Spore notebook</td></tr>
+                                <tr><td>Train hardware</td><td>Kaggle GPU</td></tr>
+                            </tbody>
+                        </table>
                         <div class="pnum">— p.07 —</div>
                     </div>
                 </div>
 
-                <!-- p.08 — § 07 Evaluation Protocol -->
+                <!-- p.08 — § 07 Evaluation & Results -->
                 <div id="sec-07" style="position: relative;">
                     <div class="page ruled-page" style="transform: rotate(0.15deg);">
                         <div class="sticky" style="position: absolute; top: 22px; right: 28px; width: 175px; transform: rotate(-2deg); z-index: 5; font-size: 12px; line-height: 1.5;">
-                            baseline LLMs first.<br />then the tuned model.<br />regex-parse outputs.<br />
-                            <span style="color: var(--red); font-size: 11px;">— graphs to follow</span>
+                            in-domain: 93%<br />LINCE: 91% weighted<br />not zero-shot<br />
+                            <span style="color: var(--green); font-size: 11px;">— competitive w/ XLM-R</span>
                         </div>
                         <div style="margin-bottom: 18px;">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 07 — Evaluation Protocol</p>
-                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">How to measure if it works</h2>
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 07 — Evaluation &amp; Results</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Does Tuktuk actually work?</h2>
                         </div>
-                        <div class="pipeline-step logline">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Holdout</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Reserve ~1000 rows <em>without labels</em> for inference-only evaluation (not used in training).</p>
-                        </div>
-                        <div class="pipeline-step logline">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Baseline pass</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Loop holdout through several off-the-shelf LLMs; regex-parse structured outputs; compare to gold labels.</p>
-                        </div>
-                        <div class="pipeline-step logline">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Tuned model pass</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Same protocol on the fine-tuned model; plot side-by-side accuracy/F1 comparisons.</p>
-                        </div>
-                        <div class="pipeline-step logline">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Further metrics</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.6;">Confusion matrix, per-class recall, latency — <span class="hy">[ to be filled ]</span></p>
-                        </div>
-                        <div class="pending-box" style="min-height: 100px; display: flex; align-items: center; justify-content: center;">
-                            <p class="mono" style="font-size: 9px; color: #9a8f85;">[ results pending — baseline vs fine-tuned comparison charts ]</p>
+
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px;">In-domain holdout (1k rows · 2,429 tokens)</p>
+                        <table class="metric-table" style="margin-bottom: 16px;">
+                            <thead>
+                                <tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>EN</td><td>0.95</td><td>0.97</td><td>0.96</td><td>1,209</td></tr>
+                                <tr><td>HI</td><td>0.96</td><td>0.84</td><td>0.89</td><td>728</td></tr>
+                                <tr><td>OT</td><td>0.82</td><td>0.61</td><td>0.70</td><td>23</td></tr>
+                                <tr><td>NE</td><td>0.84</td><td>0.96</td><td>0.90</td><td>469</td></tr>
+                                <tr><td><strong>Weighted avg</strong></td><td>0.93</td><td>0.93</td><td><strong>0.93</strong></td><td>2,429</td></tr>
+                            </tbody>
+                        </table>
+
+                        <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px;">LINCE dev (cleaned tokens)</p>
+                        <p class="hw" style="font-size: 13px; line-height: 1.65; color: #5d544b; margin-bottom: 10px;">
+                            External benchmark — inputs passed through <code class="mono">clean_hinglish_text()</code> before inference.
+                            Competitive with XLM-R; not a raw zero-shot claim.
+                        </p>
+                        <table class="metric-table" style="margin-bottom: 14px;">
+                            <thead>
+                                <tr><th>Model</th><th>Weighted F1</th><th>Macro F1</th><th>OT F1</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Tuktuk (fine-tuned)</td><td>0.91</td><td>0.87</td><td>0.72</td></tr>
+                                <tr><td>XLM-R HIEN LID</td><td>0.91</td><td>0.88</td><td>0.76</td></tr>
+                                <tr><td>HingBERT-LID</td><td>0.73</td><td>0.58</td><td>0.00</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pending-box" style="min-height: 64px; display: flex; align-items: center; justify-content: center;">
+                            <p class="mono" style="font-size: 9px; color: #9a8f85;">[ chart pending — baseline vs Tuktuk comparison ]</p>
                         </div>
                         <div class="pnum">— p.08 —</div>
                     </div>
                 </div>
 
-                <!-- p.09 — § 08 Forward Considerations -->
+                <!-- p.09 — § 08 Constraints, Regrets & Next -->
                 <div id="sec-08" style="position: relative;">
                     <div class="page plain-page" style="transform: rotate(-0.2deg);">
                         <div style="margin-bottom: 18px;">
-                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 08 — Forward Considerations</p>
-                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Status &amp; next steps</h2>
+                            <p class="mono" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a6f65; margin-bottom: 4px;">§ 08 — Constraints, Regrets &amp; Next</p>
+                            <h2 class="hw" style="font-size: 26px; color: var(--ink);">Honest postmortem</h2>
                         </div>
                         <div class="watch-item">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Active</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Preprocessing pipeline on Spore; fine-tuning not started yet.</p>
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Hard constraints</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">No local GPU (house fire). Pseudo-labels instead of gold annotation. Severe OT class imbalance. CPU-only labeling on 456k+ tokens.</p>
                         </div>
-                        <div class="watch-item">
-                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Blocked on</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Research paper under review — some provenance and label details pending publication clearance.</p>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Regret — Qwen first</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Qwen3.5-0.8B overfit on pseudo-labels. Should've started with an encoder baseline.</p>
+                        </div>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Regret — no confidence scores</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Forgot to save model confidence during pseudo-labeling. Weighted voting would've helped ties — too lazy to re-run.</p>
+                        </div>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Regret — HingBERT as voter</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Binary classifier dragged Fleiss κ down. Kept as tie-breaker only.</p>
+                        </div>
+                        <div class="regret-item">
+                            <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--red); margin-bottom: 4px;">Regret — dictionary → CodeSwitch pivot</p>
+                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Original plan was a dictionary-based 3rd source. Rushed pivot to LINCE CodeSwitch model when dictionary coverage was insufficient.</p>
                         </div>
                         <div class="watch-item">
                             <p class="mono" style="font-size: 8px; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">Next</p>
                             <p class="hw" style="font-size: 14px; line-height: 1.65;">
-                                Finish § 04 pipeline → fill § 05 charts → lock model in § 06 → run § 07 eval → update this page.
+                                v2: confidence-weighted voting · replace HingBERT voter · more collection sources · public HF release after paper clearance.
                             </p>
                         </div>
-                        <div class="pending-box">
-                            <p class="mono" style="font-size: 9px; color: var(--red); margin-bottom: 6px;">[ TO BE FILLED ]</p>
-                            <p class="hw" style="font-size: 14px; line-height: 1.65;">Timeline, repo link, demo inference endpoint, and lessons learned.</p>
+                        <div class="pending-box" style="margin-top: 14px; min-height: 72px; display: flex; align-items: center; justify-content: center;">
+                            <p class="mono" style="font-size: 9px; color: #9a8f85;">[ notebook embed — Hinglish_data_preprocessing.ipynb ]</p>
                         </div>
                         <div class="pnum">— p.09 —</div>
                     </div>
@@ -622,6 +817,12 @@
             }
         });
     </script>
+    <nav class="portfolio-nav-mobile" aria-label="Site navigation">
+        <a href="index.html"><span class="nav-tab-id">Subject</span></a>
+        <a href="Exp_01_Spore.html"><span class="nav-tab-id">Exp_01</span></a>
+        <a class="is-active" href="Exp_02_LID_Fine-tuning.html"><span class="nav-tab-id">Exp_02</span></a>
+        <a href="pdf/Ansh Sharma Resume 7.pdf" target="_blank" rel="noopener"><span class="nav-tab-id">Resume</span></a>
+    </nav>
 </body>
 
 </html>
