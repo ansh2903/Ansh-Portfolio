@@ -257,6 +257,14 @@
             animation: none;
         }
 
+        .group:hover .tag-side-exp {
+            background-color: #a89e11;
+            color: white;
+            border-color: black;
+            border-width: 1px;
+            animation: none;
+        }
+
         .group:hover .tag-legacy {
             background-color: #1c1c18;
             color: white;
@@ -293,6 +301,54 @@
             gap: 20px;
             padding: 0 24px;
             box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-block {
+            border: none;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.35);
+            font-family: 'Space Grotesk', monospace;
+            font-size: 11px;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin-top: 10px;
+            color: #1c1c18;
+            text-transform: none;
+            letter-spacing: normal;
+            text-align: left;
+            width: 100%;
+        }
+
+        .lbl { padding: 0 3px; font-size: 11px; }
+        .lbl-hi { background: rgba(73, 104, 0, 0.15); }
+        .lbl-en { background: rgba(255, 228, 70, 0.35); }
+        .lbl-ne { background: rgba(58, 90, 140, 0.18); }
+        .lbl-ot { background: rgba(74, 63, 53, 0.12); }
+
+        .lid-preview {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 12px;
+            color: #1c1c18;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .lid-tok {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .lid-tok > span:first-child {
+            line-height: 1.2;
         }
     </style>
     <link href="mobile.css" rel="stylesheet" />
@@ -515,16 +571,20 @@
                                     class="absolute top-0 right-0 bg-ink_main text-surface-container-lowest px-2 py-1 font-code text-[10px] uppercase">
                                     EXP_01</div>
 
-                                <div class="flex flex-row items-center gap-4 mb-2">
+                                <div class="flex flex-row items-center gap-4 mb-2 flex-wrap">
                                     <h3 class="font-h3 text-h3 text-ink_main mb-2">Spore</h3>
                                     <p
                                         class="tag-flagship font-code mb-2 text-code text-on-surface-variant bg-surface-container inline-block px-2 py-1 border border-ink_main uppercase tracking-widest">
                                         Flagship
                                     </p>
+                                    <span
+                                        class="project-docs font-code mb-2 text-[12px] uppercase tracking-widest text-ink_main opacity-0 group-hover:opacity-100">
+                                        Docs ↗
+                                    </span>
                                 </div>
                                 <div
                                     class="project-aside-note absolute right-2 -bottom-3 text-tertiary font-annotation text-annotation transform -rotate-6 max-w-[250px]">
-                                    *Now with more than 150+ docker pulls.
+                                    *Now with more than 450+ docker pulls.
                                 </div>
 
                                 <p class="font-annotation text-annotation text-on-surface-variant mb-4">Local-first data
@@ -538,7 +598,7 @@
                                 </div>
                                 <div class="font-code text-code bg-surface-container border border-ink_main p-3 mt-auto">
                                     <span class="font-bold">Validation:</span> Processed 6.7GB TSV dataset successfully.
-                                    Peak memory usage contained within target thresholds.
+                                    Peak memory usage contained within target thresholds. And also used for XLM-V Tuktuk HIEN LID project.
                                 </div>
                             </article>
                         </a>
@@ -552,24 +612,32 @@
                                     EXP_02</div>
 
                                 <div class="flex flex-row items-center gap-4 mb-2 flex-wrap">
-                                    <h3 class="font-h3 text-h3 text-ink_main mb-2 break-words">XLM-V Tuktuk HIEN LID</h3>
+                                    <h3 class="font-h3 text-h3 text-ink_main mb-2 break-words">XLM-V Tuktuk LID</h3>
                                     <p
-                                        class="font-code mb-2 text-code text-on-surface-variant bg-surface-container inline-block px-2 py-1 border border-ink_main uppercase tracking-widest">
+                                        class="tag-side-exp font-code mb-2 text-code text-on-surface-variant bg-surface-container inline-block px-2 py-1 border border-ink_main uppercase tracking-widest">
                                         Side exp
                                     </p>
+                                    <span
+                                        class="project-docs font-code mb-2 text-[12px] uppercase tracking-widest text-ink_main opacity-0 group-hover:opacity-100">
+                                        Docs ↗
+                                    </span>
                                 </div>
 
-                                <p class="font-annotation text-annotation text-on-surface-variant mb-4">Token-level
-                                    code-mixed Hinglish language identification. ~28k self-collected corpus. Fine-tuned
-                                    <code class="font-code text-[12px]">facebook/xlm-v-base</code> on Kaggle.</p>
+                                <p class="font-annotation text-annotation text-on-surface-variant mb-4">Named after subject's cat Tuktuk. XLM-V tuktuk HIEN LID is a token-level Language Identification Model specialized for code-mixed Hinglish text.</p>
                                 <div
-                                    class="w-full h-32 border-2 border-ink_main bg-surface-container-lowest mb-4 p-3 flex items-center justify-center">
-                                    <p class="font-code text-[11px] text-on-surface-variant uppercase tracking-widest text-center">
-                                        Token LID · 4-class · pseudo-label ensemble</p>
+                                    class="w-full h-32 border-2 border-ink_main bg-surface-container-lowest mb-4 p-3 flex items-center justify-center overflow-x-auto">
+                                    <div class="lid-preview">
+                                        <div class="lid-tok"><span>Example</span><span class="lbl lbl-en">EN</span></div>
+                                        <div class="lid-tok"><span>text</span><span class="lbl lbl-en">EN</span></div>
+                                        <div class="lid-tok"><span>hai</span><span class="lbl lbl-hi">HI</span></div>
+                                        <div class="lid-tok"><span>actual</span><span class="lbl lbl-en">EN</span></div>
+                                        <div class="lid-tok"><span>dataset</span><span class="lbl lbl-en">EN</span></div>
+                                        <div class="lid-tok"><span>se</span><span class="lbl lbl-hi">HI</span></div>
+                                        <div class="lid-tok"><span>nhi</span><span class="lbl lbl-hi">HI</span></div>
+                                    </div>
                                 </div>
                                 <div class="font-code text-code bg-surface-container border border-ink_main p-3 mb-4">
-                                    <span class="font-bold">Validation:</span> 456k+ pseudo-labeled tokens · LINCE
-                                    external eval 91% weighted F1 (cleaned).
+                                    <span class="font-bold">Validation:</span> · Achieved 91% weighted F1 and 87% Macro F1 on external LINCE Benchmark, within 1% of best performing model.
                                 </div>
                                 <div class="flex flex-wrap gap-2 mt-auto">
                                     <span
@@ -583,6 +651,7 @@
                                         class="border border-ink_main px-2 py-1 font-code text-[12px] bg-surface-variant">Data
                                         Collection</span>
                                 </div>
+
                             </article>
                         </a>
 
@@ -617,6 +686,10 @@
                                         class="border border-ink_main px-2 py-1 font-code text-[12px] bg-surface-variant">Local
                                         AI</span>
                                 </div>
+                                <div
+                                class="absolute bottom-0 right-0 px-2 py-1 font-code text-[10px] uppercase">
+                                Github ↗</div>
+
                             </article>
                         </a>
                     </div>
@@ -716,7 +789,7 @@
         <a class="is-active" href="index.html"><span class="nav-tab-id">Subject</span></a>
         <a href="Exp_01_Spore.html"><span class="nav-tab-id">Exp_01</span></a>
         <a href="Exp_02_LID_Fine-tuning.html"><span class="nav-tab-id">Exp_02</span></a>
-        <a href="pdf/Ansh Sharma Resume 7.pdf" target="_blank" rel="noopener"><span class="nav-tab-id">Resume</span></a>
+        <a href="pdf/Ansh Sharma Resume 8.pdf" target="_blank" rel="noopener"><span class="nav-tab-id">Resume</span></a>
     </nav>
     <script src="base.js"></script>
     <script>
